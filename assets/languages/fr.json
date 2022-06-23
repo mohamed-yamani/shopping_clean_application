@@ -1,0 +1,20 @@
+{
+    "favoriteProducts": "produits préférés",
+    "language": "langue",
+    "aboutUs": "à propos de nous",
+    "newProducts": "nouveau",
+    "popular": "populaire",
+    "promotion": "promotion",
+    "home": "accueil",
+    "feedback": "commentaire",
+    "about": "à propos",
+    "aboutDescription": "cette application est une application simple pour faire du shopping",
+    "okay": "d'accord",
+    "checkNetwork": "Veuillez vérifier votre connexion réseau et appuyer sur le bouton Réessayer ou ajouter un bogue en appuyant sur le bouton de rétroaction.",
+    "retry": "réessayer",
+    "somethingWentWrong": "quelque chose s'est mal passé",
+    "sorryNoProducts": "Désolé, aucun produit n'a été trouvé",
+    "dhs": "DH",
+    "sumilarProducts": "produits similaires",
+    "addToCart": "ajouter au panier"
+}

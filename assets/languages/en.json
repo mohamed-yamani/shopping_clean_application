@@ -1,0 +1,20 @@
+{
+    "favoriteProducts": "Favorite Products",
+    "language": "Language",
+    "aboutUs": "About Us",
+    "newProducts": "New",
+    "promotion": "Promotion",
+    "popular": "Popular",
+    "home": "Home",
+    "feedback": "Feedback",
+    "about": "About",
+    "aboutDescription": "this application is a simple application for shopping",
+    "okay": "Okay",
+    "checkNetwork": "Please check your network connection and press Retry button or put in as a bug by pressing feedback button.",
+    "retry": "Retry",
+    "somethingWentWrong": "Something went wrong",
+    "sorryNoProducts": "Sorry, no products found",
+    "dhs": "Dhs",
+    "sumilarProducts": "Similar Products",
+    "addToCart": "Add to Cart"
+}

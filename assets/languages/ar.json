@@ -1,0 +1,20 @@
+{
+    "favoriteProducts": "المنتجات المفضلة",
+    "language": "اللغة",
+    "aboutUs": "من نحن",
+    "newProducts": "جديد",
+    "popular": "شعبي",
+    "promotion": "الترقية",
+    "home": "الصفحة الرئيسية",
+    "feedback": "التعليقات",
+    "about": "من نحن",
+    "aboutDescription": "هذا التطبيق هو تطبيق بسيط للتسوق",
+    "okay": "حسنا",
+    "checkNetwork": "يرجى التحقق من اتصالك بالشبكة واضغط على زر إعادة المحاولة أو أدخله كخطأ عن طريق الضغط على زر الملاحظات. ",
+    "retry": "حاول مرة أخرى",
+    "somethingWentWrong": "حدث خطأ ما",
+    "sorryNoProducts": "عذرا، لا يوجد منتجات",
+    "dhs": "درهم",
+    "sumilarProducts": "منتجات مشابهة",
+    "addToCart": "أضف إلى السلة"
+}

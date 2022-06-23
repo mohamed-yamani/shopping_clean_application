@@ -1,0 +1,44 @@
+class Sizes {
+  Sizes._();
+
+  static const double dimen_0 = 0.0;
+  static const double dimen_1 = 1.0;
+  static const double dimen_2 = 2.0;
+  static const double dimen_3 = 3.0;
+  static const double dimen_4 = 4.0;
+  static const double dimen_5 = 5.0;
+  static const double dimen_6 = 6.0;
+  static const double dimen_7 = 7.0;
+  static const double dimen_8 = 8.0;
+  static const double dimen_9 = 9.0;
+  static const double dimen_10 = 10.0;
+  static const double dimen_12 = 12.0;
+  static const double dimen_14 = 14.0;
+  static const double dimen_16 = 16.0;
+  static const double dimen_18 = 18.0;
+  static const double dimen_20 = 20.0;
+  static const double dimen_24 = 24.0;
+  static const double dimen_25 = 25.0;
+  static const double dimen_30 = 30.0;
+  static const double dimen_32 = 32.0;
+  static const double dimen_40 = 40.0;
+  static const double dimen_50 = 50.0;
+  static const double dimen_60 = 60.0;
+  static const double dimen_70 = 70.0;
+  static const double dimen_80 = 80.0;
+  static const double dimen_90 = 90.0;
+  static const double dimen_100 = 100.0;
+  static const double dimen_105 = 105.0;
+  static const double dimen_160 = 160.0;
+  static const double dimen_200 = 200.0;
+  static const double dimen_230 = 230.0;
+  static const double dimen_300 = 300.0;
+  static const double dimen_400 = 400.0;
+  static const double dimen_500 = 500.0;
+  static const double dimen_600 = 600.0;
+  static const double dimen_700 = 700.0;
+  static const double dimen_800 = 800.0;
+  static const double dimen_900 = 900.0;
+  static const double dimen_1000 = 1000.0;
+  static const double dimen_2000 = 2000.0;
+}
