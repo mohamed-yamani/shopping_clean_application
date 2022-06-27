@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:petshop/common/constants/languagesConsts.dart';
+import 'package:petshop/common/constants/route_constants.dart';
 import 'package:petshop/common/screenutil/screenutil.dart';
 import 'package:petshop/di/get_it.dart';
 import 'package:petshop/presentation/app_localizations.dart';
 import 'package:petshop/presentation/blocs/language/language_bloc.dart';
+import 'package:petshop/presentation/fade_page_route_builder.dart';
 import 'package:petshop/presentation/journeys/home/home_screen.dart';
+import 'package:petshop/presentation/routes.dart';
 import 'package:petshop/presentation/themes/theme_color.dart';
 import 'package:petshop/presentation/themes/theme_text.dart';
 import 'package:petshop/presentation/wiredash_app.dart';
@@ -23,7 +27,9 @@ class _EcommerceAppState extends State<EcommerceApp> {
   LanguageBloc? _languageBloc;
   @override
   void initState() {
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
     _languageBloc = getItInstance<LanguageBloc>();
+    _languageBloc?.add(LoadPreferredLanguageEvent());
     super.initState();
   }
 
@@ -65,7 +71,19 @@ class _EcommerceAppState extends State<EcommerceApp> {
                   GlobalMaterialLocalizations.delegate,
                   GlobalWidgetsLocalizations.delegate,
                 ],
-                home: const HomeScreen(),
+                builder: (context, child) {
+                  return child!;
+                },
+                initialRoute: RouteList.initial,
+                onGenerateRoute: (RouteSettings settings) {
+                  final routes = Routes.getRoutes(settings);
+                  final WidgetBuilder builder = routes[settings.name]!;
+                  return FadePageRouteBuilder(
+                    builder: builder,
+                    settings: settings,
+                  );
+                },
+                // home: const HomeScreen(),
               ),
             );
           }

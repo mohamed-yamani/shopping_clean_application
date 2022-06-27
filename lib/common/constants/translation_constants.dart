@@ -17,4 +17,5 @@ class TranslationConstants {
   static const sorryNoProducts = 'sorryNoProducts';
   static const dirhams = 'dhs';
   static const sumilarProducts = 'sumilarProducts';
+  static const noFavoriteProducts = 'noFavoriteProducts';
 }

@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:petshop/common/constants/route_constants.dart';
 import 'package:petshop/common/constants/size_constants.dart';
 import 'package:petshop/common/extensions/size_extensions.dart';
 import 'package:petshop/common/extensions/string_extentions.dart';
@@ -23,16 +24,8 @@ class ShoppingTabCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => ProductDetailScreen(
-              arguments: ProductDetailArguments(
-                productId: productId,
-              ),
-            ),
-          ),
-        );
-        print('productId: $productId');
+        Navigator.of(context).pushNamed(RouteList.productDetail,
+            arguments: ProductDetailArguments(productId: productId));
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

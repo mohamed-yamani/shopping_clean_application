@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:petshop/common/constants/size_constants.dart';
 import 'package:petshop/common/extensions/size_extensions.dart';
 import 'package:petshop/common/screenutil/screenutil.dart';
+import 'package:petshop/presentation/blocs/serach_product/serach_product_bloc.dart';
+import 'package:petshop/presentation/journeys/search_product/custom_search_delegate.dart';
 import 'package:petshop/presentation/widgets/logo.dart';
 
 class ShoppingAppBar extends StatelessWidget {
@@ -33,7 +36,14 @@ class ShoppingAppBar extends StatelessWidget {
               child: Logo(height: Sizes.dimen_10.h),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                showSearch(
+                  context: context,
+                  delegate: CustomSearchDelegate(
+                    BlocProvider.of<SerachProductBloc>(context),
+                  ),
+                );
+              },
               icon: Icon(
                 Icons.search,
                 color: Colors.white,

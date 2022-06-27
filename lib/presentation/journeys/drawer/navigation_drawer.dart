@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petshop/common/constants/languagesConsts.dart';
+import 'package:petshop/common/constants/route_constants.dart';
 import 'package:petshop/common/constants/size_constants.dart';
 import 'package:petshop/common/constants/translation_constants.dart';
 import 'package:petshop/common/extensions/size_extensions.dart';
 import 'package:petshop/common/extensions/string_extentions.dart';
-import 'package:petshop/presentation/app_localizations.dart';
 import 'package:petshop/presentation/blocs/language/language_bloc.dart';
 import 'package:petshop/presentation/journeys/drawer/navigation_Expanded_list_item.dart';
 import 'package:petshop/presentation/journeys/drawer/navigation_list_item.dart';
-import 'package:petshop/presentation/themes/theme_color.dart';
+import 'package:petshop/presentation/journeys/favorite/favorite_screen.dart';
 import 'package:petshop/presentation/widgets/app_dialog.dart';
 import 'package:petshop/presentation/widgets/logo.dart';
 import 'package:wiredash/wiredash.dart';
@@ -40,6 +40,12 @@ class NavigationDrawer extends StatelessWidget {
                 left: Sizes.dimen_8.w,
                 right: Sizes.dimen_8.w),
             child: Logo(height: Sizes.dimen_20.h),
+          ),
+          NavigationListItem(
+            title: TranslationConstants.favoriteProducts.t(context),
+            onPressed: () {
+              Navigator.of(context).pushNamed(RouteList.favoriteScreen);
+            },
           ),
           NavigationListItem(
             title: TranslationConstants.home.t(context),

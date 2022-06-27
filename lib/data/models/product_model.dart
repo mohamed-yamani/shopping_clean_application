@@ -1,7 +1,7 @@
 import 'package:petshop/domain/entites/product_entity.dart';
 
 class ProductModel extends ProductEntity {
-  final int? id;
+  final int id;
   final String? nom;
   final String? ordre;
   final String? photoPrincipal;
@@ -16,7 +16,7 @@ class ProductModel extends ProductEntity {
   final double? nombrePhotoCarroussel;
 
   const ProductModel(
-      {this.id,
+      {required this.id,
       this.nom,
       this.ordre,
       this.photoPrincipal,

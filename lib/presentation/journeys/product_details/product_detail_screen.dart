@@ -6,6 +6,7 @@ import 'package:petshop/common/extensions/size_extensions.dart';
 import 'package:petshop/common/extensions/string_extentions.dart';
 import 'package:petshop/di/get_it.dart';
 import 'package:petshop/domain/entites/product_details_entity.dart';
+import 'package:petshop/presentation/blocs/favorite/favorite_bloc.dart';
 import 'package:petshop/presentation/blocs/product_details/product_details_bloc.dart';
 import 'package:petshop/presentation/journeys/product_details/big_poster.dart';
 import 'package:petshop/presentation/journeys/product_details/product_detail_arguments.dart';
@@ -23,27 +24,34 @@ class ProductDetailScreen extends StatefulWidget {
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
-  late ProductDetailsBloc _productDetailsBloc;
+  ProductDetailsBloc? _productDetailsBloc;
+  FavoriteBloc? _favoriteBloc;
 
   @override
   void initState() {
     super.initState();
     _productDetailsBloc = getItInstance<ProductDetailsBloc>();
-    _productDetailsBloc
+    _productDetailsBloc!
         .add(ProductDataLoadEvent(productId: widget.arguments.productId));
+    _favoriteBloc = getItInstance<FavoriteBloc>();
+    _favoriteBloc!.add(CheckIfProductFavoriteEvent(widget.arguments.productId));
   }
 
   @override
   void dispose() {
-    _productDetailsBloc.close();
+    _productDetailsBloc!.close();
+    _favoriteBloc!.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider<ProductDetailsBloc>.value(
-        value: _productDetailsBloc,
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: _productDetailsBloc!),
+          BlocProvider.value(value: _favoriteBloc!),
+        ],
         child: BlocBuilder<ProductDetailsBloc, ProductDetailsState>(
           builder: (context, state) {
             if (state is ProductDetailsLoaded) {

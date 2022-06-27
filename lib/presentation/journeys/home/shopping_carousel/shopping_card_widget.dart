@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:petshop/common/constants/route_constants.dart';
 import 'package:petshop/common/constants/size_constants.dart';
 import 'package:petshop/common/extensions/size_extensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -19,16 +20,8 @@ class ShoppingCardWidget extends StatelessWidget {
       borderRadius: BorderRadius.circular(Sizes.dimen_16.w),
       child: GestureDetector(
         onTap: () {
-          print('shopping card tapped');
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => ProductDetailScreen(
-                arguments: ProductDetailArguments(
-                  productId: defaultIndex,
-                ),
-              ),
-            ),
-          );
+          Navigator.of(context).pushNamed(RouteList.productDetail,
+              arguments: ProductDetailArguments(productId: defaultIndex));
         },
         child: ClipRRect(
           borderRadius: BorderRadius.circular(Sizes.dimen_16.w),

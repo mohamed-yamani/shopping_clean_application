@@ -12,6 +12,7 @@ abstract class ProductRemoteDataSource {
   Future<List<ProductModel>> getNewProducts();
   Future<List<ProductModel>> getPopularProducts();
   Future<List<ProductModel>> getPromotionProducts();
+  Future<List<ProductModel>> getSearchProducts(String searchTerm);
   Future<ProductDetailsModel> getProductDetails(int id);
 }
 
@@ -61,5 +62,13 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
       print(products);
     }
     return products;
+  }
+
+  @override
+  Future<List<ProductModel>> getSearchProducts(String searchTerm) async {
+    final response = await _client.get('/api/produit?search', 
+      queryParameters: {'search': searchTerm});
+    final products = ProductResultModel.fromJson(response).products;
+    return products!;
   }
 }

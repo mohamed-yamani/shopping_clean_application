@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:http/http.dart';
 import 'package:petshop/domain/entites/app_error.dart';
 import 'package:petshop/domain/entites/product_details_entity.dart';
 import 'package:petshop/domain/entites/product_params.dart';
 import 'package:petshop/domain/usecases/get_product_details.dart';
+import 'package:petshop/presentation/blocs/favorite/favorite_bloc.dart';
 
 part 'product_details_event.dart';
 part 'product_details_state.dart';
@@ -13,8 +13,10 @@ part 'product_details_state.dart';
 class ProductDetailsBloc
     extends Bloc<ProductDetailsEvent, ProductDetailsState> {
   final GetProductDetails getProductDetails;
+  final FavoriteBloc favoriteBloc;
 
-  ProductDetailsBloc({required this.getProductDetails})
+  ProductDetailsBloc(
+      {required this.favoriteBloc, required this.getProductDetails})
       : super(ProductDetailsInitial()) {
     on<ProductDataLoadEvent>((event, emit) async {
       final Either<AppError, ProductDetailsEntity> eitherReponse =
@@ -24,6 +26,7 @@ class ProductDetailsBloc
         (r) => emit(
             ProductDetailsLoaded(productDetail: r, productId: event.productId)),
       );
+      favoriteBloc.add(CheckIfProductFavoriteEvent(event.productId));
     });
   }
 }
