@@ -17,5 +17,7 @@
     "dhs": "درهم",
     "sumilarProducts": "منتجات مشابهة",
     "addToCart": "أضف إلى السلة",
-    "noFavoriteProducts": "لا يوجد منتجات مفضلة"
+    "noFavoriteProducts": "لا يوجد منتجات مفضلة",
+    "login": "تسجيل الدخول",
+    "logout": "تسجيل الخروج"
 }

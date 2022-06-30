@@ -25,8 +25,8 @@ class ShoppingTabbedBloc
       : super(const ShoppingTabbedInitial(currentTabIndex: 0)) {
     on<ShoppingTabbedChangedEvent>((event, emit) async {
       late Either<AppError, List<ProductEntity>> productEither;
-      print('ShoppingTabbedBloc: ShoppingTabbedChangedEvent' +
-          event.currentTabIndex.toString());
+
+      emit(ShoppingTabbedLoadingState(currentTabIndex: event.currentTabIndex));
       switch (event.currentTabIndex) {
         case 0:
           productEither = await getNewProducts(NoParams());

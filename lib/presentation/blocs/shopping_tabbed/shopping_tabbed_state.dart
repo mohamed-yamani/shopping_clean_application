@@ -29,3 +29,8 @@ class ShoppingTabbedErrorState extends ShoppingTabbedState {
       {required this.appErrorType, required int currentTabIndex})
       : super(currentTabIndex: currentTabIndex);
 }
+
+class ShoppingTabbedLoadingState extends ShoppingTabbedState {
+  const ShoppingTabbedLoadingState({required int currentTabIndex})
+      : super(currentTabIndex: currentTabIndex);
+}

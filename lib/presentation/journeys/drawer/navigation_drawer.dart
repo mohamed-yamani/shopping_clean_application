@@ -7,6 +7,7 @@ import 'package:petshop/common/constants/translation_constants.dart';
 import 'package:petshop/common/extensions/size_extensions.dart';
 import 'package:petshop/common/extensions/string_extentions.dart';
 import 'package:petshop/presentation/blocs/language/language_bloc.dart';
+import 'package:petshop/presentation/blocs/login/login_bloc.dart';
 import 'package:petshop/presentation/journeys/drawer/navigation_Expanded_list_item.dart';
 import 'package:petshop/presentation/journeys/drawer/navigation_list_item.dart';
 import 'package:petshop/presentation/journeys/favorite/favorite_screen.dart';
@@ -77,7 +78,22 @@ class NavigationDrawer extends StatelessWidget {
               Navigator.pop(context);
             },
             children: LanguagesConsts.languages.map((e) => e.value).toList(),
-          )
+          ),
+          BlocListener<LoginBloc, LoginState>(
+            listenWhen: (previous, current) => current is LogoutSuccess,
+            listener: (context, state) {
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil(RouteList.initial, (route) => false);
+            },
+            child: NavigationListItem(
+              title: TranslationConstants.logout.t(context),
+              onPressed: () {
+                Navigator.of(context).pop();
+                BlocProvider.of<LoginBloc>(context).add(LogoutEvent());
+                // _showLogoutDialog(context);
+              },
+            ),
+          ),
         ],
       )),
     );

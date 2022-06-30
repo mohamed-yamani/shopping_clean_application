@@ -1,11 +1,14 @@
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
 import 'package:petshop/data/core/api_client.dart';
+import 'package:petshop/data/data_sources/authentication_local_data_source.dart';
+import 'package:petshop/data/data_sources/authentication_remote_data_source.dart';
 import 'package:petshop/data/data_sources/language_local_data_source.dart';
 import 'package:petshop/data/data_sources/menu_remote_data_source.dart';
 import 'package:petshop/data/data_sources/product_local_data_source.dart';
 import 'package:petshop/data/data_sources/product_remote_data_source.dart';
 import 'package:petshop/data/repositories/app_repository_impl.dart';
+import 'package:petshop/data/repositories/authenticationRepositoryImpl.dart';
 import 'package:petshop/data/repositories/menu_repository_impl.dart';
 import 'package:petshop/data/repositories/product_repository_impl.dart';
 import 'package:petshop/domain/repositories/app_repository.dart';
@@ -21,16 +24,22 @@ import 'package:petshop/domain/usecases/get_preferred_language.dart';
 import 'package:petshop/domain/usecases/get_product_details.dart';
 import 'package:petshop/domain/usecases/get_products.dart';
 import 'package:petshop/domain/usecases/get_promotion_products.dart';
+import 'package:petshop/domain/usecases/login_user.dart';
+import 'package:petshop/domain/usecases/logout_user.dart';
 import 'package:petshop/domain/usecases/save_product.dart';
 import 'package:petshop/domain/usecases/search_products.dart';
 import 'package:petshop/domain/usecases/update_language.dart';
 import 'package:petshop/presentation/blocs/carousel/carousel_bloc.dart';
 import 'package:petshop/presentation/blocs/favorite/favorite_bloc.dart';
 import 'package:petshop/presentation/blocs/language/language_bloc.dart';
+import 'package:petshop/presentation/blocs/loading/loading_bloc.dart';
+import 'package:petshop/presentation/blocs/login/login_bloc.dart';
 import 'package:petshop/presentation/blocs/product_details/product_details_bloc.dart';
 import 'package:petshop/presentation/blocs/serach_product/serach_product_bloc.dart';
 import 'package:petshop/presentation/blocs/shopping_backdrop/shopping_backdrop_bloc.dart';
 import 'package:petshop/presentation/blocs/shopping_tabbed/shopping_tabbed_bloc.dart';
+
+import '../domain/repositories/authentication_repository.dart';
 
 final getItInstance = GetIt.I;
 
@@ -56,9 +65,23 @@ Future init() async {
       () => ProductRepositoryImpl(getItInstance(), getItInstance()));
   getItInstance.registerLazySingleton<ProductRemoteDataSourceImpl>(
       () => ProductRemoteDataSourceImpl(getItInstance()));
+
   //! Application Repository (Local Data Source)
   getItInstance.registerLazySingleton<AppRepository>(
     () => AppRepositoryImpl(getItInstance()),
+  );
+  //! Authentication Repository (Remote Data Source) AuthenticationRemoteDataSource
+  getItInstance.registerLazySingleton<AuthenticationRemoteDataSource>(
+      () => AuthenticationRemoteDataSourceImpl(getItInstance()));
+  //! Authentication Repository (Local Data Source) AuthenticationLocalDataSource
+  getItInstance.registerLazySingleton<AuthenticationLocalDataSource>(
+      () => AuthenticationLocalDataSourceImpl());
+  //! login Repository (Remote Data Source)
+  getItInstance.registerLazySingleton<AuthenticationRepository>(
+    () => AuthenticationRepositoryImpl(
+      getItInstance(),
+      getItInstance(),
+    ),
   );
   //! Popular Products Repository (Remote Data Source)
   getItInstance.registerLazySingleton<GetPopularProducts>(
@@ -79,6 +102,7 @@ Future init() async {
   //! GetFavoriteProducts Repository (Local Data Source)
   getItInstance.registerLazySingleton<GetFavoriteProducts>(
       () => GetFavoriteProducts(getItInstance()));
+
   //! DeleteFavoriteProduct Repository (Local Data Source)
   getItInstance.registerLazySingleton<DeleteFavoriteProduct>(
       () => DeleteFavoriteProduct(getItInstance()));
@@ -107,6 +131,7 @@ Future init() async {
   //! factorys for carousel bloc
   getItInstance.registerFactory(
     () => CarouselBloc(
+      loadingBloc: getItInstance(),
       getMenu: getItInstance(),
       shoppingBackdropBloc: getItInstance(),
     ),
@@ -123,6 +148,7 @@ Future init() async {
   //! factorys for language bloc
   getItInstance.registerFactory(
     () => ProductDetailsBloc(
+      loadingBloc: getItInstance(),
       getProductDetails: getItInstance(),
       favoriteBloc: getItInstance(),
     ),
@@ -131,16 +157,32 @@ Future init() async {
   //! languages bloc
   getItInstance.registerSingleton<LanguageBloc>(LanguageBloc(
       getPreferredLanguage: getItInstance(), updateLanguage: getItInstance()));
+  //! Login
+  //! login use case
+  getItInstance
+      .registerLazySingleton<LoginUser>(() => LoginUser(getItInstance()));
+  //! logout use case
+  getItInstance
+      .registerLazySingleton<LogoutUser>(() => LogoutUser(getItInstance()));
+  //! login bloc
+  getItInstance.registerFactory(() => LoginBloc(
+        getItInstance(),
+        loadingBloc: getItInstance(),
+        loginUser: getItInstance(),
+      ));
 
   //! search product and search product bloc
   getItInstance.registerLazySingleton<SearchProducts>(
       () => SearchProducts(getItInstance()));
-  getItInstance.registerFactory<SerachProductBloc>(
-      () => SerachProductBloc(searchProducts: getItInstance()));
+  getItInstance.registerFactory<SerachProductBloc>(() => SerachProductBloc(
+      loadingBloc: getItInstance(), searchProducts: getItInstance()));
   //! favorite product bloc
   getItInstance.registerFactory<FavoriteBloc>(() => FavoriteBloc(
       saveProduct: getItInstance(),
       getFavoriteProducts: getItInstance(),
       deleteFavoriteProduct: getItInstance(),
       checkIfProductFavorite: getItInstance()));
+  //! loading bloc
+
+  getItInstance.registerSingleton<LoadingBloc>(LoadingBloc());
 }

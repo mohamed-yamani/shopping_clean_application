@@ -17,5 +17,7 @@
     "dhs": "DH",
     "sumilarProducts": "produits similaires",
     "addToCart": "ajouter au panier",
-    "noFavoriteProducts": "Aucun produit préféré"
+    "noFavoriteProducts": "Aucun produit préféré",
+    "login": "connectez-vous",
+    "logout": "déconnectez-vous"
 }

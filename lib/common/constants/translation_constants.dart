@@ -18,4 +18,6 @@ class TranslationConstants {
   static const dirhams = 'dhs';
   static const sumilarProducts = 'sumilarProducts';
   static const noFavoriteProducts = 'noFavoriteProducts';
+  static const login = 'login';
+  static const logout = 'logout';
 }

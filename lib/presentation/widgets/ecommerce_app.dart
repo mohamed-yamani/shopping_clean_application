@@ -8,8 +8,11 @@ import 'package:petshop/common/screenutil/screenutil.dart';
 import 'package:petshop/di/get_it.dart';
 import 'package:petshop/presentation/app_localizations.dart';
 import 'package:petshop/presentation/blocs/language/language_bloc.dart';
+import 'package:petshop/presentation/blocs/loading/loading_bloc.dart';
+import 'package:petshop/presentation/blocs/login/login_bloc.dart';
 import 'package:petshop/presentation/fade_page_route_builder.dart';
 import 'package:petshop/presentation/journeys/home/home_screen.dart';
+import 'package:petshop/presentation/journeys/loading/loading_screen.dart';
 import 'package:petshop/presentation/routes.dart';
 import 'package:petshop/presentation/themes/theme_color.dart';
 import 'package:petshop/presentation/themes/theme_text.dart';
@@ -25,10 +28,15 @@ class EcommerceApp extends StatefulWidget {
 class _EcommerceAppState extends State<EcommerceApp> {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
   LanguageBloc? _languageBloc;
+  LoginBloc? _loginBloc;
+  LoadingBloc? _loadingBloc;
+
   @override
   void initState() {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     _languageBloc = getItInstance<LanguageBloc>();
+    _loginBloc = getItInstance<LoginBloc>();
+    _loadingBloc = getItInstance<LoadingBloc>();
     _languageBloc?.add(LoadPreferredLanguageEvent());
     super.initState();
   }
@@ -36,14 +44,26 @@ class _EcommerceAppState extends State<EcommerceApp> {
   @override
   void dispose() {
     _languageBloc!.close();
+    _loginBloc!.close();
+    _loadingBloc!.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init();
-    return BlocProvider<LanguageBloc>.value(
-      value: _languageBloc!,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<LanguageBloc>.value(
+          value: _languageBloc!,
+        ),
+        BlocProvider<LoginBloc>.value(
+          value: _loginBloc!,
+        ),
+        BlocProvider<LoadingBloc>.value(
+          value: _loadingBloc!,
+        ),
+      ],
       child: BlocBuilder<LanguageBloc, LanguageState>(
         builder: (context, state) {
           if (state is LanguageLoadedState) {
@@ -72,6 +92,7 @@ class _EcommerceAppState extends State<EcommerceApp> {
                   GlobalWidgetsLocalizations.delegate,
                 ],
                 builder: (context, child) {
+                  return LoadingScreen(screen: child!);
                   return child!;
                 },
                 initialRoute: RouteList.initial,

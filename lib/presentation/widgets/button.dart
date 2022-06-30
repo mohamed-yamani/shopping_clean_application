@@ -7,20 +7,32 @@ import 'package:petshop/presentation/themes/theme_color.dart';
 class Button extends StatelessWidget {
   final String text;
   final Function onPressed;
+  final bool isEnabled;
 
-  const Button({Key? key, required this.text, required this.onPressed})
+  const Button(
+      {Key? key,
+      required this.text,
+      required this.onPressed,
+      this.isEnabled = true})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            AppColor.violet,
-            AppColor.violet.withOpacity(0.5),
-          ],
-        ),
+        gradient: isEnabled
+            ? LinearGradient(
+                colors: [
+                  AppColor.violet,
+                  AppColor.violet.withOpacity(0.5),
+                ],
+              )
+            : const LinearGradient(
+                colors: [
+                  Colors.grey,
+                  Colors.grey,
+                ],
+              ),
         borderRadius: BorderRadius.all(
           Radius.circular(Sizes.dimen_20.w),
         ),

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petshop/common/constants/size_constants.dart';
@@ -6,10 +5,10 @@ import 'package:petshop/common/constants/translation_constants.dart';
 import 'package:petshop/common/extensions/size_extensions.dart';
 import 'package:petshop/common/extensions/string_extentions.dart';
 import 'package:petshop/presentation/blocs/shopping_tabbed/shopping_tabbed_bloc.dart';
-import 'package:petshop/presentation/blocs/shopping_tabbed/shopping_tabbed_bloc.dart';
 import 'package:petshop/presentation/journeys/home/shopping_tabbed/shopping_list_view_builder_widget.dart';
 import 'package:petshop/presentation/journeys/home/shopping_tabbed/shopping_tabbed_consts.dart';
 import 'package:petshop/presentation/journeys/home/shopping_tabbed/tab_title_wedget.dart';
+import 'package:petshop/presentation/journeys/loading/loading_circle.dart';
 import 'package:petshop/presentation/widgets/app_error_widget.dart';
 
 class ShoppingTabbedWidget extends StatefulWidget {
@@ -87,6 +86,12 @@ class _ShoppingTabbedWidgetState extends State<ShoppingTabbedWidget>
                     ShoppingTabbedChangedEvent(
                         currentTabIndex: state.currentTabIndex),
                   ),
+                ),
+              ),
+            if (state is ShoppingTabbedLoadingState)
+              Expanded(
+                child: Center(
+                  child: LoadingCircle(size: Sizes.dimen_200.w),
                 ),
               ),
           ]),
