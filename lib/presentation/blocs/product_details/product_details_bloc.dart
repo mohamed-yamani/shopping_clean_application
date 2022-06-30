@@ -6,7 +6,7 @@ import 'package:petshop/domain/entites/product_details_entity.dart';
 import 'package:petshop/domain/entites/product_params.dart';
 import 'package:petshop/domain/usecases/get_product_details.dart';
 import 'package:petshop/presentation/blocs/favorite/favorite_bloc.dart';
-import 'package:petshop/presentation/blocs/loading/loading_bloc.dart';
+import 'package:petshop/presentation/blocs/loading/loading_cubit.dart';
 
 part 'product_details_event.dart';
 part 'product_details_state.dart';
@@ -15,15 +15,15 @@ class ProductDetailsBloc
     extends Bloc<ProductDetailsEvent, ProductDetailsState> {
   final GetProductDetails getProductDetails;
   final FavoriteBloc favoriteBloc;
-  final LoadingBloc loadingBloc;
+  final LoadingCubit loadingCubit;
 
   ProductDetailsBloc(
-      {required this.loadingBloc,
+      {required this.loadingCubit,
       required this.favoriteBloc,
       required this.getProductDetails})
       : super(ProductDetailsInitial()) {
     on<ProductDataLoadEvent>((event, emit) async {
-      loadingBloc.add(StartLoadingEvent());
+      loadingCubit.show();
       final Either<AppError, ProductDetailsEntity> eitherReponse =
           await getProductDetails(ProductParams(id: event.productId));
       eitherReponse.fold(
@@ -32,7 +32,7 @@ class ProductDetailsBloc
             ProductDetailsLoaded(productDetail: r, productId: event.productId)),
       );
       favoriteBloc.add(CheckIfProductFavoriteEvent(event.productId));
-      loadingBloc.add(StopLoadingEvent());
+      loadingCubit.hide();
     });
   }
 }

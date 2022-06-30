@@ -6,7 +6,7 @@ import 'package:petshop/domain/entites/login_request_params.dart';
 import 'package:petshop/domain/entites/no_params.dart';
 import 'package:petshop/domain/usecases/login_user.dart';
 import 'package:petshop/domain/usecases/logout_user.dart';
-import 'package:petshop/presentation/blocs/loading/loading_bloc.dart';
+import 'package:petshop/presentation/blocs/loading/loading_cubit.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -14,15 +14,15 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LoginUser loginUser;
   final LogoutUser logoutUser;
-  final LoadingBloc loadingBloc;
+  final LoadingCubit loadingCubit;
 
   LoginBloc(this.logoutUser,
-      {required this.loadingBloc, required this.loginUser})
+      {required this.loadingCubit, required this.loginUser})
       : super(LoginInitial()) {
     on<LoginInitialEvent>((event, emit) async {
       print(
           'LoginBloc: LoginInitialEvent received with username: ${event.username} and password: ${event.password}');
-      loadingBloc.add(StartLoadingEvent());
+      loadingCubit.show();
       final Either<AppError, bool> eitherReponse =
           await loginUser(LoginRequestParams(
         username: event.username,
@@ -31,16 +31,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       eitherReponse.fold(
           (l) => emit(LoginError(getErrorMessage(l.appErrorType))),
           (r) => LoginSuccess());
-      loadingBloc.add(StopLoadingEvent());
+      loadingCubit.hide();
     });
     on<LogoutEvent>((event, emit) async {
       print('LoginBloc: LogoutEvent received');
-      loadingBloc.add(StartLoadingEvent());
+      loadingCubit.show();
       final Either<AppError, void> eitherReponse = await logoutUser(NoParams());
       eitherReponse.fold(
           (l) => emit(LoginError(getErrorMessage(l.appErrorType))),
           (r) => LoginInitial());
-      loadingBloc.add(StopLoadingEvent());
+      loadingCubit.hide();
     });
   }
 

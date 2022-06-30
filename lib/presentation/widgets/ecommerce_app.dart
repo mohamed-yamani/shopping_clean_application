@@ -8,7 +8,7 @@ import 'package:petshop/common/screenutil/screenutil.dart';
 import 'package:petshop/di/get_it.dart';
 import 'package:petshop/presentation/app_localizations.dart';
 import 'package:petshop/presentation/blocs/language/language_bloc.dart';
-import 'package:petshop/presentation/blocs/loading/loading_bloc.dart';
+import 'package:petshop/presentation/blocs/loading/loading_cubit.dart';
 import 'package:petshop/presentation/blocs/login/login_bloc.dart';
 import 'package:petshop/presentation/fade_page_route_builder.dart';
 import 'package:petshop/presentation/journeys/home/home_screen.dart';
@@ -29,14 +29,14 @@ class _EcommerceAppState extends State<EcommerceApp> {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
   LanguageBloc? _languageBloc;
   LoginBloc? _loginBloc;
-  LoadingBloc? _loadingBloc;
+  LoadingCubit? _loadingCubit;
 
   @override
   void initState() {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     _languageBloc = getItInstance<LanguageBloc>();
     _loginBloc = getItInstance<LoginBloc>();
-    _loadingBloc = getItInstance<LoadingBloc>();
+    _loadingCubit = getItInstance<LoadingCubit>();
     _languageBloc?.add(LoadPreferredLanguageEvent());
     super.initState();
   }
@@ -45,7 +45,7 @@ class _EcommerceAppState extends State<EcommerceApp> {
   void dispose() {
     _languageBloc!.close();
     _loginBloc!.close();
-    _loadingBloc!.close();
+    _loadingCubit!.close();
     super.dispose();
   }
 
@@ -60,8 +60,8 @@ class _EcommerceAppState extends State<EcommerceApp> {
         BlocProvider<LoginBloc>.value(
           value: _loginBloc!,
         ),
-        BlocProvider<LoadingBloc>.value(
-          value: _loadingBloc!,
+        BlocProvider<LoadingCubit>.value(
+          value: _loadingCubit!,
         ),
       ],
       child: BlocBuilder<LanguageBloc, LanguageState>(

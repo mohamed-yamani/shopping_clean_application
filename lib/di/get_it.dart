@@ -32,7 +32,7 @@ import 'package:petshop/domain/usecases/update_language.dart';
 import 'package:petshop/presentation/blocs/carousel/carousel_bloc.dart';
 import 'package:petshop/presentation/blocs/favorite/favorite_bloc.dart';
 import 'package:petshop/presentation/blocs/language/language_bloc.dart';
-import 'package:petshop/presentation/blocs/loading/loading_bloc.dart';
+import 'package:petshop/presentation/blocs/loading/loading_cubit.dart';
 import 'package:petshop/presentation/blocs/login/login_bloc.dart';
 import 'package:petshop/presentation/blocs/product_details/product_details_bloc.dart';
 import 'package:petshop/presentation/blocs/serach_product/serach_product_bloc.dart';
@@ -131,7 +131,7 @@ Future init() async {
   //! factorys for carousel bloc
   getItInstance.registerFactory(
     () => CarouselBloc(
-      loadingBloc: getItInstance(),
+      loadingCubit: getItInstance(),
       getMenu: getItInstance(),
       shoppingBackdropBloc: getItInstance(),
     ),
@@ -148,7 +148,7 @@ Future init() async {
   //! factorys for language bloc
   getItInstance.registerFactory(
     () => ProductDetailsBloc(
-      loadingBloc: getItInstance(),
+      loadingCubit: getItInstance(),
       getProductDetails: getItInstance(),
       favoriteBloc: getItInstance(),
     ),
@@ -167,7 +167,7 @@ Future init() async {
   //! login bloc
   getItInstance.registerFactory(() => LoginBloc(
         getItInstance(),
-        loadingBloc: getItInstance(),
+        loadingCubit: getItInstance(),
         loginUser: getItInstance(),
       ));
 
@@ -175,7 +175,7 @@ Future init() async {
   getItInstance.registerLazySingleton<SearchProducts>(
       () => SearchProducts(getItInstance()));
   getItInstance.registerFactory<SerachProductBloc>(() => SerachProductBloc(
-      loadingBloc: getItInstance(), searchProducts: getItInstance()));
+      loadingCubit: getItInstance(), searchProducts: getItInstance()));
   //! favorite product bloc
   getItInstance.registerFactory<FavoriteBloc>(() => FavoriteBloc(
       saveProduct: getItInstance(),
@@ -184,5 +184,5 @@ Future init() async {
       checkIfProductFavorite: getItInstance()));
   //! loading bloc
 
-  getItInstance.registerSingleton<LoadingBloc>(LoadingBloc());
+  getItInstance.registerSingleton<LoadingCubit>(LoadingCubit());
 }
