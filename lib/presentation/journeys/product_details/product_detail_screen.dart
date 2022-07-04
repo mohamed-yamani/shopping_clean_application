@@ -7,8 +7,10 @@ import 'package:petshop/common/extensions/string_extentions.dart';
 import 'package:petshop/di/get_it.dart';
 import 'package:petshop/domain/entites/product_details_entity.dart';
 import 'package:petshop/presentation/blocs/favorite/favorite_bloc.dart';
+import 'package:petshop/presentation/blocs/photo_product_color/photo_product_color_bloc.dart';
 import 'package:petshop/presentation/blocs/product_details/product_details_bloc.dart';
 import 'package:petshop/presentation/journeys/product_details/big_poster.dart';
+import 'package:petshop/presentation/journeys/product_details/colors_list.dart';
 import 'package:petshop/presentation/journeys/product_details/product_detail_arguments.dart';
 import 'package:petshop/presentation/journeys/product_details/sumilar_products_widget.dart';
 import 'package:petshop/presentation/widgets/button.dart';
@@ -26,6 +28,7 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   ProductDetailsBloc? _productDetailsBloc;
   FavoriteBloc? _favoriteBloc;
+  PhotoProductColorBloc? _photoProductColorBloc;
 
   @override
   void initState() {
@@ -35,12 +38,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         .add(ProductDataLoadEvent(productId: widget.arguments.productId));
     _favoriteBloc = getItInstance<FavoriteBloc>();
     _favoriteBloc!.add(CheckIfProductFavoriteEvent(widget.arguments.productId));
+    _photoProductColorBloc = getItInstance<PhotoProductColorBloc>();
+    _photoProductColorBloc!.add(PhotoProductColorLoadEvent(
+        codeCouleur: '1', produitId: '${widget.arguments.productId}'));
   }
 
   @override
   void dispose() {
     _productDetailsBloc!.close();
     _favoriteBloc!.close();
+    _photoProductColorBloc!.close();
     super.dispose();
   }
 
@@ -62,6 +69,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     BigPoster(productDetails: productDetails),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: Sizes.dimen_16.w),
+                      child: ColorsList(couleurs: productDetails.couleurs!),
+                    ),
                     Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: Sizes.dimen_16.w),

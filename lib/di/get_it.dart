@@ -20,6 +20,7 @@ import 'package:petshop/domain/usecases/delete_favorite_products.dart';
 import 'package:petshop/domain/usecases/get_favorite_products.dart';
 import 'package:petshop/domain/usecases/get_menu.dart';
 import 'package:petshop/domain/usecases/get_new_products.dart';
+import 'package:petshop/domain/usecases/get_photo_product_color.dart';
 import 'package:petshop/domain/usecases/get_popular_products.dart';
 import 'package:petshop/domain/usecases/get_preferred_language.dart';
 import 'package:petshop/domain/usecases/get_preferred_theme.dart';
@@ -37,6 +38,7 @@ import 'package:petshop/presentation/blocs/favorite/favorite_bloc.dart';
 import 'package:petshop/presentation/blocs/language/language_bloc.dart';
 import 'package:petshop/presentation/blocs/loading/loading_cubit.dart';
 import 'package:petshop/presentation/blocs/login/login_bloc.dart';
+import 'package:petshop/presentation/blocs/photo_product_color/photo_product_color_bloc.dart';
 import 'package:petshop/presentation/blocs/product_details/product_details_bloc.dart';
 import 'package:petshop/presentation/blocs/serach_product/serach_product_bloc.dart';
 import 'package:petshop/presentation/blocs/shopping_backdrop/shopping_backdrop_bloc.dart';
@@ -104,6 +106,9 @@ Future init() async {
   //! save product as favorite Repository (Local Data Source)
   getItInstance
       .registerLazySingleton<SaveProduct>(() => SaveProduct(getItInstance()));
+  //! get photo color product
+  getItInstance.registerLazySingleton<GetPhotoProductColor>(
+      () => GetPhotoProductColor(getItInstance()));
 
   //! GetFavoriteProducts Repository (Local Data Source)
   getItInstance.registerLazySingleton<GetFavoriteProducts>(
@@ -156,12 +161,20 @@ Future init() async {
     ),
   );
 
-  //! factorys for language bloc
+  //! factorys for product details bloc
   getItInstance.registerFactory(
     () => ProductDetailsBloc(
       loadingCubit: getItInstance(),
       getProductDetails: getItInstance(),
       favoriteBloc: getItInstance(),
+    ),
+  );
+
+  //! factorys for photo product color bloc
+  getItInstance.registerFactory(
+    () => PhotoProductColorBloc(
+      loadingCubit: getItInstance(),
+      getPhotoProductColor: getItInstance(),
     ),
   );
 

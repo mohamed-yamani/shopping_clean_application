@@ -42,10 +42,6 @@ class BigPoster extends StatelessWidget {
               productDetails.nom!,
               style: Theme.of(context).textTheme.headline5,
             ),
-            // subtitle: Text(
-            //   productDetails.nom!,
-            //   style: Theme.of(context).textTheme.graySubtitle1,
-            // ),
             trailing: Text(
               '${productDetails.prix!} Dhs',
               style: Theme.of(context).textTheme.violetHeadline6,

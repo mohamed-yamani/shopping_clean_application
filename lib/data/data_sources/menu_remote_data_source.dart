@@ -23,7 +23,6 @@ class MenuRemoteDataSourceImpl extends MenuRemoteDataSource {
     await response.forEach((element) {
       menu.add(MenuModel.fromJson(element));
     });
-    print(menu[0].photoPrincipal);
     return menu;
   }
 }

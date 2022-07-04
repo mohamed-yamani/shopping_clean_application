@@ -10,7 +10,7 @@ class ProductDetailsEntity extends Equatable {
   final int? categorie;
   final bool? promotion;
   final String? description;
-  final List<String>? couleurs;
+  final List<Couleurs>? couleurs;
   final bool? isNew;
   final List<ProduitsSimilaire>? produitsSimilaire;
   final bool? favoris;

@@ -2,6 +2,7 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:petshop/data/core/api_client.dart';
+import 'package:petshop/data/models/photo_product_model.dart';
 import 'package:petshop/data/models/product_details_model.dart';
 import 'package:petshop/data/models/product_model.dart';
 import 'package:petshop/data/models/product_result_model.dart';
@@ -14,6 +15,8 @@ abstract class ProductRemoteDataSource {
   Future<List<ProductModel>> getPromotionProducts();
   Future<List<ProductModel>> getSearchProducts(String searchTerm);
   Future<ProductDetailsModel> getProductDetails(int id);
+  Future<List<PhotoProduitColorModel>> getPhotoProductColor(
+      String codeCouleur, String produitId);
 }
 
 class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
@@ -66,9 +69,22 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
 
   @override
   Future<List<ProductModel>> getSearchProducts(String searchTerm) async {
-    final response = await _client.get('/api/produit?search', 
-      queryParameters: {'search': searchTerm});
+    final response = await _client
+        .get('/api/produit?search', queryParameters: {'search': searchTerm});
     final products = ProductResultModel.fromJson(response).products;
     return products!;
+  }
+
+  @override
+  Future<List<PhotoProduitColorModel>> getPhotoProductColor(
+      String codeCouleur, String produitId) async {
+    List<PhotoProduitColorModel>? photosProductColor = [];
+    final response =
+        await _client.get('/api/photo-produit-couleur/?produit=20&color=1');
+    await response.forEach((element) {
+      photosProductColor.add(PhotoProduitColorModel.fromJson(element));
+    });
+    print(photosProductColor);
+    return photosProductColor;
   }
 }
