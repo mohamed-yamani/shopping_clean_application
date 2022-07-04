@@ -18,3 +18,5 @@ class LoginInitialEvent extends LoginEvent {
 }
 
 class LogoutEvent extends LoginEvent {}
+
+class GuestLoginEvent extends LoginEvent {}

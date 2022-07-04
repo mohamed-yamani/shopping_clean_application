@@ -4,7 +4,6 @@ import 'package:petshop/common/constants/route_constants.dart';
 import 'package:petshop/common/constants/size_constants.dart';
 import 'package:petshop/common/constants/translation_constants.dart';
 import 'package:petshop/common/extensions/size_extensions.dart';
-import 'package:petshop/common/extensions/string_extentions.dart';
 import 'package:petshop/presentation/blocs/login/login_bloc.dart';
 import 'package:petshop/presentation/journeys/login/label_field_widget.dart';
 import 'package:petshop/presentation/widgets/button.dart';
@@ -58,14 +57,6 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-            padding: EdgeInsets.only(bottom: Sizes.dimen_8.h),
-            child: Text(
-              'Login to pet shop via username or telephone number',
-              style: Theme.of(context).textTheme.headline5,
-              textAlign: TextAlign.center,
-            ),
-          ),
           LabelFieldWidget(
             label: 'Username',
             hintText: 'Enter your username',
@@ -92,7 +83,7 @@ class _LoginFormState extends State<LoginForm> {
                 }
                 return const SizedBox.shrink();
               },
-              listenWhen: (previous, current) => current is LoginError,
+              listenWhen: (previous, current) => current is LoginSuccess,
               listener: (context, state) {
                 print('LoginSuccess from LoginForm');
                 Navigator.of(context)
@@ -107,7 +98,11 @@ class _LoginFormState extends State<LoginForm> {
                   username: _userNameController!.text,
                   password: _passwordController!.text));
             },
-          )
+          ),
+          Button(
+              text: TranslationConstants.guestLogin,
+              onPressed: () =>
+                  BlocProvider.of<LoginBloc>(context).add(GuestLoginEvent())),
         ],
       ),
     ));

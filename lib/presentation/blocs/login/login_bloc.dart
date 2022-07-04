@@ -42,6 +42,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           (r) => LoginInitial());
       loadingCubit.hide();
     });
+    on<GuestLoginEvent>((event, emit) async {
+      print('LoginBloc: GuestLoginEvent received');
+      loadingCubit.show();
+      emit(LoginSuccess());
+      loadingCubit.hide();
+    });
   }
 
   String getErrorMessage(AppErrorType appErrorType) {
