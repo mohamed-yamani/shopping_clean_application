@@ -10,7 +10,8 @@ import 'package:petshop/presentation/blocs/favorite/favorite_bloc.dart';
 import 'package:petshop/presentation/blocs/photo_product_color/photo_product_color_bloc.dart';
 import 'package:petshop/presentation/blocs/product_details/product_details_bloc.dart';
 import 'package:petshop/presentation/journeys/product_details/big_poster.dart';
-import 'package:petshop/presentation/journeys/product_details/colors_list.dart';
+import 'package:petshop/presentation/journeys/product_details/colors_circles_list.dart';
+import 'package:petshop/presentation/journeys/product_details/images_view.dart';
 import 'package:petshop/presentation/journeys/product_details/product_detail_arguments.dart';
 import 'package:petshop/presentation/journeys/product_details/sumilar_products_widget.dart';
 import 'package:petshop/presentation/widgets/button.dart';
@@ -58,6 +59,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         providers: [
           BlocProvider.value(value: _productDetailsBloc!),
           BlocProvider.value(value: _favoriteBloc!),
+          BlocProvider.value(value: _photoProductColorBloc!),
         ],
         child: BlocBuilder<ProductDetailsBloc, ProductDetailsState>(
           builder: (context, state) {
@@ -68,11 +70,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    BigPoster(productDetails: productDetails),
+                    // BigPoster(productDetails: productDetails),
+                    DetailImagesView(
+                      productDetails: productDetails,
+                    ),
                     Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: Sizes.dimen_16.w),
-                      child: ColorsList(couleurs: productDetails.couleurs!),
+                      child: ColorsCirclesList(
+                          couleurs: productDetails.couleurs!,
+                          productDetails: productDetails),
                     ),
                     Padding(
                       padding:

@@ -79,11 +79,13 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
   Future<List<PhotoProduitColorModel>> getPhotoProductColor(
       String codeCouleur, String produitId) async {
     List<PhotoProduitColorModel>? photosProductColor = [];
-    final response =
-        await _client.get('/api/photo-produit-couleur/?produit=20&color=1');
+    final response = await _client.get(
+        '/api/photo-produit-couleur/?produit=$produitId&color=$codeCouleur');
     await response.forEach((element) {
       photosProductColor.add(PhotoProduitColorModel.fromJson(element));
     });
+    print('id is $produitId');
+    print('color is $codeCouleur');
     print(photosProductColor);
     return photosProductColor;
   }
