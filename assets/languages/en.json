@@ -19,5 +19,6 @@
     "addToCart": "Add to Cart",
     "noFavoriteProducts": "No favorite products found",
     "login": "Login",
-    "logout": "Logout"
+    "logout": "Logout",
+    "guestLogin": "Guest Login"
 }

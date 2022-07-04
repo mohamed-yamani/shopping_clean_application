@@ -33,12 +33,6 @@ class LabelFieldWidget extends StatelessWidget {
             style: Theme.of(context).textTheme.headline6,
             decoration: InputDecoration(
               hintText: hintText,
-              hintStyle: Theme.of(context)
-                  .textTheme
-                  .subtitle1
-                  ?.copyWith(color: Colors.grey),
-              // focusedBorder: _focusedBorder,
-              // enabledBorder: _enabledBorder,
             ),
           )
         ],

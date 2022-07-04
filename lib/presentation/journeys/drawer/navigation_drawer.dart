@@ -8,9 +8,11 @@ import 'package:petshop/common/extensions/size_extensions.dart';
 import 'package:petshop/common/extensions/string_extentions.dart';
 import 'package:petshop/presentation/blocs/language/language_bloc.dart';
 import 'package:petshop/presentation/blocs/login/login_bloc.dart';
+import 'package:petshop/presentation/blocs/theme/theme_cubit.dart';
 import 'package:petshop/presentation/journeys/drawer/navigation_Expanded_list_item.dart';
 import 'package:petshop/presentation/journeys/drawer/navigation_list_item.dart';
 import 'package:petshop/presentation/journeys/favorite/favorite_screen.dart';
+import 'package:petshop/presentation/themes/theme_color.dart';
 import 'package:petshop/presentation/widgets/app_dialog.dart';
 import 'package:petshop/presentation/widgets/logo.dart';
 import 'package:wiredash/wiredash.dart';
@@ -94,6 +96,23 @@ class NavigationDrawer extends StatelessWidget {
               },
             ),
           ),
+          // toggle theme
+          BlocBuilder<ThemeCubit, Themes>(
+            builder: (context, theme) {
+              return Align(
+                alignment: Alignment.bottomCenter,
+                child: IconButton(
+                    onPressed: () => context.read<ThemeCubit>().toggleTheme(),
+                    icon: Icon(
+                        theme == Themes.light
+                            ? Icons.brightness_3
+                            : Icons.brightness_7,
+                        color: context.read<ThemeCubit>().state == Themes.dark
+                            ? Colors.white
+                            : AppColor.vulcan)),
+              );
+            },
+          )
         ],
       )),
     );

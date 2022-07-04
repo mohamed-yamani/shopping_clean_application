@@ -20,4 +20,5 @@ class TranslationConstants {
   static const noFavoriteProducts = 'noFavoriteProducts';
   static const login = 'login';
   static const logout = 'logout';
+  static const guestLogin = 'guestLogin';
 }

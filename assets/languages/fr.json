@@ -19,5 +19,6 @@
     "addToCart": "ajouter au panier",
     "noFavoriteProducts": "Aucun produit préféré",
     "login": "connectez-vous",
-    "logout": "déconnectez-vous"
+    "logout": "déconnectez-vous",
+    "guestLogin": "connexion invité"
 }

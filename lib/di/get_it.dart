@@ -7,6 +7,7 @@ import 'package:petshop/data/data_sources/language_local_data_source.dart';
 import 'package:petshop/data/data_sources/menu_remote_data_source.dart';
 import 'package:petshop/data/data_sources/product_local_data_source.dart';
 import 'package:petshop/data/data_sources/product_remote_data_source.dart';
+import 'package:petshop/data/data_sources/theme_local_data_source.dart';
 import 'package:petshop/data/repositories/app_repository_impl.dart';
 import 'package:petshop/data/repositories/authenticationRepositoryImpl.dart';
 import 'package:petshop/data/repositories/menu_repository_impl.dart';
@@ -21,6 +22,7 @@ import 'package:petshop/domain/usecases/get_menu.dart';
 import 'package:petshop/domain/usecases/get_new_products.dart';
 import 'package:petshop/domain/usecases/get_popular_products.dart';
 import 'package:petshop/domain/usecases/get_preferred_language.dart';
+import 'package:petshop/domain/usecases/get_preferred_theme.dart';
 import 'package:petshop/domain/usecases/get_product_details.dart';
 import 'package:petshop/domain/usecases/get_products.dart';
 import 'package:petshop/domain/usecases/get_promotion_products.dart';
@@ -29,6 +31,7 @@ import 'package:petshop/domain/usecases/logout_user.dart';
 import 'package:petshop/domain/usecases/save_product.dart';
 import 'package:petshop/domain/usecases/search_products.dart';
 import 'package:petshop/domain/usecases/update_language.dart';
+import 'package:petshop/domain/usecases/update_theme.dart';
 import 'package:petshop/presentation/blocs/carousel/carousel_bloc.dart';
 import 'package:petshop/presentation/blocs/favorite/favorite_bloc.dart';
 import 'package:petshop/presentation/blocs/language/language_bloc.dart';
@@ -38,6 +41,7 @@ import 'package:petshop/presentation/blocs/product_details/product_details_bloc.
 import 'package:petshop/presentation/blocs/serach_product/serach_product_bloc.dart';
 import 'package:petshop/presentation/blocs/shopping_backdrop/shopping_backdrop_bloc.dart';
 import 'package:petshop/presentation/blocs/shopping_tabbed/shopping_tabbed_bloc.dart';
+import 'package:petshop/presentation/blocs/theme/theme_cubit.dart';
 
 import '../domain/repositories/authentication_repository.dart';
 
@@ -65,10 +69,12 @@ Future init() async {
       () => ProductRepositoryImpl(getItInstance(), getItInstance()));
   getItInstance.registerLazySingleton<ProductRemoteDataSourceImpl>(
       () => ProductRemoteDataSourceImpl(getItInstance()));
+  getItInstance.registerLazySingleton<ThemeLocalDataSource>(
+      () => ThemeLocalDataSourceImpl());
 
   //! Application Repository (Local Data Source)
   getItInstance.registerLazySingleton<AppRepository>(
-    () => AppRepositoryImpl(getItInstance()),
+    () => AppRepositoryImpl(getItInstance(), getItInstance()),
   );
   //! Authentication Repository (Remote Data Source) AuthenticationRemoteDataSource
   getItInstance.registerLazySingleton<AuthenticationRemoteDataSource>(
@@ -114,6 +120,11 @@ Future init() async {
       () => UpdateLanguage(getItInstance()));
   getItInstance.registerLazySingleton<GetPreferredLanguage>(
       () => GetPreferredLanguage(getItInstance()));
+  //! update theme and get preferred use case
+  getItInstance
+      .registerLazySingleton<UpdateTheme>(() => UpdateTheme(getItInstance()));
+  getItInstance.registerLazySingleton<GetPreferredTheme>(
+      () => GetPreferredTheme(getItInstance()));
   //! Menu Repository (Remote Data Source)
   getItInstance.registerLazySingleton<MenuRemoteDataSource>(
       () => MenuRemoteDataSourceImpl(getItInstance()));
@@ -157,6 +168,10 @@ Future init() async {
   //! languages bloc
   getItInstance.registerSingleton<LanguageBloc>(LanguageBloc(
       getPreferredLanguage: getItInstance(), updateLanguage: getItInstance()));
+
+  getItInstance.registerSingleton<ThemeCubit>(ThemeCubit(
+      getPreferredTheme: getItInstance(), updateTheme: getItInstance()));
+
   //! Login
   //! login use case
   getItInstance

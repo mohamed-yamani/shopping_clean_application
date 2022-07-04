@@ -38,11 +38,43 @@ class ThemeText {
         height: 1.5,
       );
 
+  static TextStyle get _vulcanHeadline6 =>
+      _poppinsTextTheme.headline6!.copyWith(
+        color: AppColor.vulcan,
+        fontSize: Sizes.dimen_20.sp,
+      );
+
+  static TextStyle get _vulcanHeadline5 =>
+      _poppinsTextTheme.headline5!.copyWith(
+        color: AppColor.vulcan,
+        fontSize: Sizes.dimen_24.sp,
+      );
+
+  static TextStyle get _vulcanSubtitle1 =>
+      _poppinsTextTheme.subtitle1!.copyWith(
+        color: AppColor.vulcan,
+        fontSize: Sizes.dimen_14.sp,
+      );
+
+  static TextStyle get _vulcanBodyText2 =>
+      _poppinsTextTheme.bodyText2!.copyWith(
+        color: AppColor.vulcan,
+        fontSize: Sizes.dimen_14.sp,
+      );
+
   static getTextTheme() => TextTheme(
         headline5: _whiteTextStyle5,
         headline6: _whiteTextStyle6,
         subtitle1: whiteSubtitle1,
         bodyText2: whiteBodyText2,
+        button: whiteButton,
+      );
+
+  static getLightTextTheme() => TextTheme(
+        headline5: _vulcanHeadline5,
+        headline6: _vulcanHeadline6,
+        subtitle1: _vulcanSubtitle1,
+        bodyText2: _vulcanBodyText2,
         button: whiteButton,
       );
 }
