@@ -3,7 +3,7 @@ import 'package:petshop/domain/entites/product_entity.dart';
 class ProductModel extends ProductEntity {
   final int id;
   final String? nom;
-  final String? ordre;
+  final int? ordre;
   final String? photoPrincipal;
   final double? prix;
   final int? nombreCouleurs;

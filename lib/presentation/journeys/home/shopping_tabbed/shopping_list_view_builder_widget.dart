@@ -22,7 +22,7 @@ class ShoppingListViewBuilderWidget extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           final ProductEntity product = products[index];
           return ShoppingTabCardWidget(
-            productId: product.id!,
+            productId: product.id,
             productName: product.nom!,
             productImgPath: product.photoPrincipal!,
           );

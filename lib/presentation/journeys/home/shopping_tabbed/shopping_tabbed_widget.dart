@@ -5,6 +5,7 @@ import 'package:petshop/common/constants/translation_constants.dart';
 import 'package:petshop/common/extensions/size_extensions.dart';
 import 'package:petshop/common/extensions/string_extentions.dart';
 import 'package:petshop/presentation/blocs/shopping_tabbed/shopping_tabbed_bloc.dart';
+import 'package:petshop/presentation/journeys/home/shopping_tabbed/shopping_list_view_build_new_widget.dart';
 import 'package:petshop/presentation/journeys/home/shopping_tabbed/shopping_list_view_builder_widget.dart';
 import 'package:petshop/presentation/journeys/home/shopping_tabbed/shopping_tabbed_consts.dart';
 import 'package:petshop/presentation/journeys/home/shopping_tabbed/tab_title_wedget.dart';
@@ -63,21 +64,23 @@ class _ShoppingTabbedWidgetState extends State<ShoppingTabbedWidget>
                     ),
                 ]),
             if (state is ShoppingTabbedChangedState)
-              state.productList.isEmpty
-                  ? Expanded(
-                      child: Center(
-                        child: Text(
-                          TranslationConstants.sorryNoProducts.t(context),
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.subtitle1,
+              state.currentTabIndex == 0
+                  ? const Expanded(child: ShoppingListViewBuilderNewWidget())
+                  : state.productList.isEmpty
+                      ? Expanded(
+                          child: Center(
+                            child: Text(
+                              TranslationConstants.sorryNoProducts.t(context),
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.subtitle1,
+                            ),
+                          ),
+                        )
+                      : Expanded(
+                          child: ShoppingListViewBuilderWidget(
+                            products: state.productList,
+                          ),
                         ),
-                      ),
-                    )
-                  : Expanded(
-                      child: ShoppingListViewBuilderWidget(
-                        products: state.productList,
-                      ),
-                    ),
             if (state is ShoppingTabbedErrorState)
               Expanded(
                 child: AppErrorWidget(

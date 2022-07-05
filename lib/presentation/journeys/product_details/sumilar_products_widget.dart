@@ -1,10 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:petshop/common/constants/route_constants.dart';
 import 'package:petshop/common/constants/size_constants.dart';
 import 'package:petshop/common/constants/translation_constants.dart';
 import 'package:petshop/common/extensions/size_extensions.dart';
 import 'package:petshop/common/extensions/string_extentions.dart';
 import 'package:petshop/data/models/product_details_model.dart';
+import 'package:petshop/presentation/blocs/theme/theme_cubit.dart';
+import 'package:petshop/presentation/journeys/product_details/product_detail_arguments.dart';
+import 'package:petshop/presentation/themes/theme_color.dart';
 import 'package:petshop/presentation/themes/theme_text.dart';
 
 class SumilarProductsWidget extends StatelessWidget {
@@ -27,7 +32,9 @@ class SumilarProductsWidget extends StatelessWidget {
             height: Sizes.dimen_100.h,
             width: Sizes.dimen_160.w,
             child: Card(
-              color: Colors.transparent,
+              color: BlocProvider.of<ThemeCubit>(context).state == Themes.light
+                  ? Colors.white
+                  : AppColor.vulcan,
               elevation: 1,
               margin: EdgeInsets.symmetric(
                 horizontal: Sizes.dimen_8.w,
@@ -42,17 +49,24 @@ class SumilarProductsWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(Sizes.dimen_8.w),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(RouteList.productDetail,
+                            arguments: ProductDetailArguments(
+                                productId: produitSimilaire.id!));
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(Sizes.dimen_8.w),
+                        ),
+                        child: CachedNetworkImage(
+                            cacheKey: produitSimilaire.id.toString(),
+                            key: Key(produitSimilaire.id.toString()),
+                            fit: BoxFit.fitHeight,
+                            height: Sizes.dimen_100.h,
+                            width: Sizes.dimen_160.w,
+                            imageUrl: produitSimilaire.photoPrincipal!),
                       ),
-                      child: CachedNetworkImage(
-                          cacheKey: produitSimilaire.id.toString(),
-                          key: Key(produitSimilaire.id.toString()),
-                          fit: BoxFit.fitHeight,
-                          height: Sizes.dimen_100.h,
-                          width: Sizes.dimen_160.w,
-                          imageUrl: produitSimilaire.photoPrincipal!),
                     ),
                   ),
                   Padding(

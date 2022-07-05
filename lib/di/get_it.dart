@@ -5,21 +5,25 @@ import 'package:petshop/data/data_sources/authentication_local_data_source.dart'
 import 'package:petshop/data/data_sources/authentication_remote_data_source.dart';
 import 'package:petshop/data/data_sources/language_local_data_source.dart';
 import 'package:petshop/data/data_sources/menu_remote_data_source.dart';
+import 'package:petshop/data/data_sources/nouvelle_collection_remote_data_source.dart';
 import 'package:petshop/data/data_sources/product_local_data_source.dart';
 import 'package:petshop/data/data_sources/product_remote_data_source.dart';
 import 'package:petshop/data/data_sources/theme_local_data_source.dart';
 import 'package:petshop/data/repositories/app_repository_impl.dart';
 import 'package:petshop/data/repositories/authenticationRepositoryImpl.dart';
 import 'package:petshop/data/repositories/menu_repository_impl.dart';
+import 'package:petshop/data/repositories/nouvelle_collection_repository_impl.dart';
 import 'package:petshop/data/repositories/product_repository_impl.dart';
 import 'package:petshop/domain/repositories/app_repository.dart';
 import 'package:petshop/domain/repositories/menu_repositories.dart';
+import 'package:petshop/domain/repositories/nouvelle_collection_repository.dart';
 import 'package:petshop/domain/repositories/product_repositories.dart';
 import 'package:petshop/domain/usecases/check_if_product_favorite.dart';
 import 'package:petshop/domain/usecases/delete_favorite_products.dart';
 import 'package:petshop/domain/usecases/get_favorite_products.dart';
 import 'package:petshop/domain/usecases/get_menu.dart';
 import 'package:petshop/domain/usecases/get_new_products.dart';
+import 'package:petshop/domain/usecases/get_nouvelle_collection.dart';
 import 'package:petshop/domain/usecases/get_photo_product_color.dart';
 import 'package:petshop/domain/usecases/get_popular_products.dart';
 import 'package:petshop/domain/usecases/get_preferred_language.dart';
@@ -38,6 +42,7 @@ import 'package:petshop/presentation/blocs/favorite/favorite_bloc.dart';
 import 'package:petshop/presentation/blocs/language/language_bloc.dart';
 import 'package:petshop/presentation/blocs/loading/loading_cubit.dart';
 import 'package:petshop/presentation/blocs/login/login_bloc.dart';
+import 'package:petshop/presentation/blocs/nouvelle_collection/nouvelle_collection_bloc.dart';
 import 'package:petshop/presentation/blocs/photo_product_color/photo_product_color_bloc.dart';
 import 'package:petshop/presentation/blocs/product_details/product_details_bloc.dart';
 import 'package:petshop/presentation/blocs/serach_product/serach_product_bloc.dart';
@@ -60,6 +65,9 @@ Future init() async {
   //! Products Repository (Local Data Source)
   getItInstance.registerLazySingleton<ProductLocalDataSource>(
       () => ProductLocalDataSourceImpl());
+  //! Nouvelle Collection Repository (Remote Data Source)
+  getItInstance.registerLazySingleton<NouvelleCollectionRemoteDataSource>(
+      () => NouvelleCollectionRemoteDataSourceImpl(getItInstance()));
   //! Language Local Data Source
   getItInstance.registerLazySingleton<LanguageLocalDataSource>(
       () => LanguageLocalDataSourceImpl());
@@ -73,6 +81,12 @@ Future init() async {
       () => ProductRemoteDataSourceImpl(getItInstance()));
   getItInstance.registerLazySingleton<ThemeLocalDataSource>(
       () => ThemeLocalDataSourceImpl());
+  //! Nouvelle Collection Repository
+  getItInstance.registerLazySingleton<NouvelleCollectionRepository>(
+      () => NouvelleCollectionRepositoryImpl(getItInstance()));
+  //! Nouvelle Collection usecase
+  getItInstance.registerLazySingleton<GetNouvelleCollection>(
+      () => GetNouvelleCollection(getItInstance()));
 
   //! Application Repository (Local Data Source)
   getItInstance.registerLazySingleton<AppRepository>(
@@ -167,6 +181,14 @@ Future init() async {
       loadingCubit: getItInstance(),
       getProductDetails: getItInstance(),
       favoriteBloc: getItInstance(),
+    ),
+  );
+
+  //! factorys for nouvelle collection bloc
+  getItInstance.registerFactory(
+    () => NouvelleCollectionBloc(
+      getNouvelleCollection: getItInstance(),
+      loadingCubit: getItInstance(),
     ),
   );
 

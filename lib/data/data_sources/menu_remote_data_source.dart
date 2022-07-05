@@ -11,7 +11,6 @@ abstract class MenuRemoteDataSource {
 
 class MenuRemoteDataSourceImpl extends MenuRemoteDataSource {
   late final ApiClient _client;
-  final String _baseUrl = ApiConstants.baseUrl;
 
   MenuRemoteDataSourceImpl(this._client);
 

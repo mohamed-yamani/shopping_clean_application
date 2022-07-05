@@ -92,7 +92,7 @@ class ProductDetailsModel extends ProductDetailsEntity {
 class ProduitsSimilaire {
   int? id;
   String? nom;
-  String? ordre;
+  int? ordre;
   String? photoPrincipal;
   double? prix;
   int? nombreCouleurs;
@@ -160,7 +160,7 @@ class Couleurs {
   int? id;
   String? codeCouleur;
   bool? principal;
-  Null? prix;
+  double? prix;
 
   Couleurs({this.id, this.codeCouleur, this.principal, this.prix});
 

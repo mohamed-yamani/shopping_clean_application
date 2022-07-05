@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petshop/common/constants/size_constants.dart';
 import 'package:petshop/common/extensions/size_extensions.dart';
 import 'package:petshop/presentation/blocs/serach_product/serach_product_bloc.dart';
+import 'package:petshop/presentation/blocs/theme/theme_cubit.dart';
 import 'package:petshop/presentation/journeys/search_product/search_product_card.dart';
 import 'package:petshop/presentation/themes/theme_color.dart';
 import 'package:petshop/presentation/themes/theme_text.dart';
@@ -17,7 +18,9 @@ class CustomSearchDelegate extends SearchDelegate {
   ThemeData appBarTheme(BuildContext context) {
     return Theme.of(context).copyWith(
       colorScheme: Theme.of(context).colorScheme.copyWith(
-            primary: AppColor.vulcan,
+            primary: context.read<ThemeCubit>().state == Themes.dark
+                ? Colors.white
+                : Colors.grey,
           ),
       inputDecorationTheme: InputDecorationTheme(
         border: InputBorder.none,
@@ -36,7 +39,9 @@ class CustomSearchDelegate extends SearchDelegate {
                 },
             icon: Icon(
               Icons.backspace,
-              color: Colors.grey,
+              color: context.read<ThemeCubit>().state == Themes.dark
+                  ? Colors.white
+                  : Colors.grey,
               size: Sizes.dimen_8.h,
             )),
     ];
@@ -46,7 +51,6 @@ class CustomSearchDelegate extends SearchDelegate {
   Widget? buildLeading(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // FocusManager.instance.primaryFocus?.unfocus();
         close(context, null);
       },
       child: Icon(
@@ -74,7 +78,7 @@ class CustomSearchDelegate extends SearchDelegate {
                     ),
               );
             } else {
-              return SearchProductCard(product: product);
+              return SearchProductCard(products: product);
             }
           } else if (state is SerachProductError) {
             return AppErrorWidget(

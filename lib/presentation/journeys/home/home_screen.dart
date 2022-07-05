@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:petshop/di/get_it.dart';
 import 'package:petshop/presentation/blocs/carousel/carousel_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:petshop/presentation/blocs/nouvelle_collection/nouvelle_collection_bloc.dart';
 import 'package:petshop/presentation/blocs/serach_product/serach_product_bloc.dart';
 import 'package:petshop/presentation/blocs/shopping_backdrop/shopping_backdrop_bloc.dart';
 import 'package:petshop/presentation/blocs/shopping_tabbed/shopping_tabbed_bloc.dart';
@@ -22,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ShoppingBackdropBloc? shoppingBackdropBloc;
   ShoppingTabbedBloc? shoppingTabbedBloc;
   SerachProductBloc? serachProductBloc;
+  NouvelleCollectionBloc? nouvelleCollectionBloc;
 
   @override
   void initState() {
@@ -30,7 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
     shoppingBackdropBloc = carouselBloc!.shoppingBackdropBloc;
     shoppingTabbedBloc = getItInstance<ShoppingTabbedBloc>();
     serachProductBloc = getItInstance<SerachProductBloc>();
+    nouvelleCollectionBloc = getItInstance<NouvelleCollectionBloc>();
     carouselBloc?.add(const CarouselLoadEvent());
+    nouvelleCollectionBloc!.add(const NouvelleCollectionLoadEvent(id: 2));
   }
 
   @override
@@ -40,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
     shoppingBackdropBloc!.close();
     serachProductBloc!.close();
     shoppingTabbedBloc!.close();
+    nouvelleCollectionBloc!.close();
   }
 
   @override
@@ -50,36 +55,38 @@ class _HomeScreenState extends State<HomeScreen> {
         BlocProvider(create: (context) => shoppingBackdropBloc!),
         BlocProvider(create: (context) => shoppingTabbedBloc!),
         BlocProvider(create: (context) => serachProductBloc!),
+        BlocProvider(create: (context) => nouvelleCollectionBloc!),
       ],
       child: Scaffold(
-          drawer: const NavigationDrawer(),
-          body: BlocBuilder<CarouselBloc, CarouselState>(
-            bloc: carouselBloc!,
-            builder: (context, state) {
-              if (state is CarouselLoadedState) {
-                return Stack(fit: StackFit.expand, children: <Widget>[
-                  FractionallySizedBox(
-                    alignment: Alignment.topCenter,
-                    heightFactor: 0.6,
-                    child: ShoppingCarouselWidget(
-                      menuList: state.menuList,
-                      defaultIndex: state.defaultIndex,
-                    ),
+        drawer: const NavigationDrawer(),
+        body: BlocBuilder<CarouselBloc, CarouselState>(
+          bloc: carouselBloc!,
+          builder: (context, state) {
+            if (state is CarouselLoadedState) {
+              return Stack(fit: StackFit.expand, children: <Widget>[
+                FractionallySizedBox(
+                  alignment: Alignment.topCenter,
+                  heightFactor: 0.6,
+                  child: ShoppingCarouselWidget(
+                    menuList: state.menuList,
+                    defaultIndex: state.defaultIndex,
                   ),
-                  const FractionallySizedBox(
-                      alignment: Alignment.bottomCenter,
-                      heightFactor: 0.4,
-                      child: ShoppingTabbedWidget()),
-                ]);
-              } else if (state is CarouselErrorState) {
-                return AppErrorWidget(
-                  appErrorType: state.appErrorType,
-                  onPressed: () => carouselBloc!.add(const CarouselLoadEvent()),
-                );
-              }
-              return const SizedBox.shrink();
-            },
-          )),
+                ),
+                const FractionallySizedBox(
+                    alignment: Alignment.bottomCenter,
+                    heightFactor: 0.4,
+                    child: ShoppingTabbedWidget()),
+              ]);
+            } else if (state is CarouselErrorState) {
+              return AppErrorWidget(
+                appErrorType: state.appErrorType,
+                onPressed: () => carouselBloc!.add(const CarouselLoadEvent()),
+              );
+            }
+            return const SizedBox.shrink();
+          },
+        ),
+      ),
     );
   }
 }

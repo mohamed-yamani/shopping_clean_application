@@ -6,7 +6,7 @@ import 'package:petshop/domain/entites/product_details_entity.dart';
 class ProductEntity extends Equatable {
   final int id;
   final String? nom;
-  final String? ordre;
+  final int? ordre;
   final String? photoPrincipal;
   final double? prix;
   final int? nombreCouleurs;

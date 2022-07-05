@@ -71,8 +71,8 @@ class DetailImagesView extends StatelessWidget {
                     controller: _controller,
                     count: state.photoProductColors.length,
                     effect: ExpandingDotsEffect(
-                      dotHeight: Sizes.dimen_12.w,
-                      dotWidth: Sizes.dimen_12.w,
+                      dotHeight: Sizes.dimen_5.w,
+                      dotWidth: Sizes.dimen_5.w,
                       dotColor: AppColor.violet,
                       activeDotColor: AppColor.violet,
                     ),

@@ -46,9 +46,7 @@ class ShoppingTabCardWidget extends StatelessWidget {
               child: Text(productName.intelliTrim(),
                   maxLines: 1,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                      // color: Colors.white,
-                      ))),
+                  style: Theme.of(context).textTheme.subtitle1)),
         ],
       ),
     );

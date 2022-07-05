@@ -10,7 +10,6 @@ import 'package:petshop/presentation/app_localizations.dart';
 import 'package:petshop/presentation/blocs/language/language_bloc.dart';
 import 'package:petshop/presentation/blocs/loading/loading_cubit.dart';
 import 'package:petshop/presentation/blocs/login/login_bloc.dart';
-import 'package:petshop/presentation/blocs/photo_product_color/photo_product_color_bloc.dart';
 import 'package:petshop/presentation/blocs/theme/theme_cubit.dart';
 import 'package:petshop/presentation/fade_page_route_builder.dart';
 import 'package:petshop/presentation/journeys/loading/loading_screen.dart';

@@ -19,46 +19,51 @@ class ColorsCirclesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: Sizes.dimen_25.h,
-      width: double.infinity,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: couleurs.length,
-        itemBuilder: (context, index) {
-          return BlocBuilder<PhotoProductColorBloc, PhotoProductColorState>(
-            builder: (context, state) {
-              if (state is PhotoProductColorLoaded) {
-                return GestureDetector(
-                  onTap: () => BlocProvider.of<PhotoProductColorBloc>(context)
-                      .add(PhotoProductColorLoadEvent(
-                          codeCouleur: couleurs[index].codeCouleur!,
-                          produitId: productDetails.id.toString())),
-                  child: CircleAvatar(
-                    radius: state.codeCouleur == couleurs[index].codeCouleur
-                        ? Sizes.dimen_19.w
-                        : Sizes.dimen_17.w,
-                    backgroundColor:
-                        BlocProvider.of<ThemeCubit>(context).state ==
-                                Themes.dark
-                            ? Colors.white.withAlpha(90)
-                            : AppColor.vulcan.withAlpha(90),
+    if (couleurs.length > 1) {
+      return SizedBox(
+        height: Sizes.dimen_25.h,
+        width: double.infinity,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          itemCount: couleurs.length,
+          itemBuilder: (context, index) {
+            return BlocBuilder<PhotoProductColorBloc, PhotoProductColorState>(
+              builder: (context, state) {
+                if (state is PhotoProductColorLoaded) {
+                  return GestureDetector(
+                    onTap: () => BlocProvider.of<PhotoProductColorBloc>(context)
+                        .add(PhotoProductColorLoadEvent(
+                            codeCouleur: couleurs[index].codeCouleur!,
+                            produitId: productDetails.id.toString())),
                     child: CircleAvatar(
-                      radius: Sizes.dimen_16.w,
+                      radius: state.codeCouleur == couleurs[index].codeCouleur
+                          ? Sizes.dimen_19.w
+                          : Sizes.dimen_17.w,
                       backgroundColor:
-                          colorFromHex(couleurs[index].codeCouleur!),
+                          BlocProvider.of<ThemeCubit>(context).state ==
+                                  Themes.dark
+                              ? Colors.white.withAlpha(90)
+                              : AppColor.vulcan.withAlpha(90),
+                      child: CircleAvatar(
+                        radius: Sizes.dimen_16.w,
+                        backgroundColor:
+                            colorFromHex(couleurs[index].codeCouleur!),
+                      ),
                     ),
-                  ),
-                );
-              }
-              return const SizedBox.shrink();
-            },
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return SizedBox(width: Sizes.dimen_10.w);
-        },
-      ),
+                  );
+                }
+                return const SizedBox.shrink();
+              },
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return SizedBox(width: Sizes.dimen_10.w);
+          },
+        ),
+      );
+    }
+    return SizedBox(
+      height: Sizes.dimen_8.h,
     );
   }
 }
