@@ -1,17 +1,31 @@
-class SubCategoryModel {
-  int? id;
-  String? nom;
-  String? photoPrincipal;
-  String? photoSecondaire;
+import 'package:petshop/domain/entites/sub_category_entity.dart';
 
-  SubCategoryModel(
-      {this.id, this.nom, this.photoPrincipal, this.photoSecondaire});
+class SubCategoryModel extends SubCategoryEntity{
+  final int? id;
+  final String? nom;
+  final String? photoPrincipal;
+  final String? photoSecondaire;
 
-  SubCategoryModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    nom = json['nom'];
-    photoPrincipal = json['photo_principal'];
-    photoSecondaire = json['photo_secondaire'];
+  SubCategoryModel({
+    required this.id,
+    required this.nom,
+    required this.photoPrincipal,
+    required this.photoSecondaire,
+  }) : super(
+    id: id,
+    nom: nom,
+    photoPrincipal: photoPrincipal,
+    photoSecondaire: photoSecondaire,
+  );
+
+  factory SubCategoryModel.fromJson(Map<String, dynamic> json) {
+
+    return SubCategoryModel(
+      id: json['id'],
+      nom: json['nom'],
+      photoPrincipal: json['photo_principal'],
+      photoSecondaire: json['photo_secondaire'],
+    );
   }
 
   Map<String, dynamic> toJson() {

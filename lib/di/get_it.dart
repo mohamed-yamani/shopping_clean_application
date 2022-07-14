@@ -8,16 +8,19 @@ import 'package:petshop/data/data_sources/menu_remote_data_source.dart';
 import 'package:petshop/data/data_sources/nouvelle_collection_remote_data_source.dart';
 import 'package:petshop/data/data_sources/product_local_data_source.dart';
 import 'package:petshop/data/data_sources/product_remote_data_source.dart';
+import 'package:petshop/data/data_sources/sub_category_remote_data_source.dart';
 import 'package:petshop/data/data_sources/theme_local_data_source.dart';
 import 'package:petshop/data/repositories/app_repository_impl.dart';
 import 'package:petshop/data/repositories/authenticationRepositoryImpl.dart';
 import 'package:petshop/data/repositories/menu_repository_impl.dart';
 import 'package:petshop/data/repositories/nouvelle_collection_repository_impl.dart';
 import 'package:petshop/data/repositories/product_repository_impl.dart';
+import 'package:petshop/data/repositories/sub_category_repository_impl.dart';
 import 'package:petshop/domain/repositories/app_repository.dart';
 import 'package:petshop/domain/repositories/menu_repositories.dart';
 import 'package:petshop/domain/repositories/nouvelle_collection_repository.dart';
 import 'package:petshop/domain/repositories/product_repositories.dart';
+import 'package:petshop/domain/repositories/sub_category_repository.dart';
 import 'package:petshop/domain/usecases/check_if_product_favorite.dart';
 import 'package:petshop/domain/usecases/delete_favorite_products.dart';
 import 'package:petshop/domain/usecases/get_favorite_products.dart';
@@ -31,6 +34,7 @@ import 'package:petshop/domain/usecases/get_preferred_theme.dart';
 import 'package:petshop/domain/usecases/get_product_details.dart';
 import 'package:petshop/domain/usecases/get_products.dart';
 import 'package:petshop/domain/usecases/get_promotion_products.dart';
+import 'package:petshop/domain/usecases/get_sub_categories.dart';
 import 'package:petshop/domain/usecases/login_user.dart';
 import 'package:petshop/domain/usecases/logout_user.dart';
 import 'package:petshop/domain/usecases/save_product.dart';
@@ -48,6 +52,7 @@ import 'package:petshop/presentation/blocs/product_details/product_details_bloc.
 import 'package:petshop/presentation/blocs/serach_product/serach_product_bloc.dart';
 import 'package:petshop/presentation/blocs/shopping_backdrop/shopping_backdrop_bloc.dart';
 import 'package:petshop/presentation/blocs/shopping_tabbed/shopping_tabbed_bloc.dart';
+import 'package:petshop/presentation/blocs/sub_categories/sub_categories_bloc.dart';
 import 'package:petshop/presentation/blocs/theme/theme_cubit.dart';
 
 import '../domain/repositories/authentication_repository.dart';
@@ -81,6 +86,9 @@ Future init() async {
       () => ProductRemoteDataSourceImpl(getItInstance()));
   getItInstance.registerLazySingleton<ThemeLocalDataSource>(
       () => ThemeLocalDataSourceImpl());
+  getItInstance.registerLazySingleton<SubCategoryRepository>(() => 
+  SubCategoryRepositoryImpl(getItInstance()));
+  
   //! Nouvelle Collection Repository
   getItInstance.registerLazySingleton<NouvelleCollectionRepository>(
       () => NouvelleCollectionRepositoryImpl(getItInstance()));
@@ -105,6 +113,9 @@ Future init() async {
       getItInstance(),
     ),
   );
+  //! SubCategoryRemoteDataSource  (Remote Data Source)
+  getItInstance.registerLazySingleton<SubCategoryRemoteDataSource>(
+      () => SubCategoryRemoteDataSourceImpl(getItInstance()));
   //! Popular Products Repository (Remote Data Source)
   getItInstance.registerLazySingleton<GetPopularProducts>(
       () => GetPopularProducts(getItInstance()));
@@ -117,6 +128,10 @@ Future init() async {
   //! Product Detail Repository (Remote Data Source)
   getItInstance.registerLazySingleton<GetProductDetails>(
       () => GetProductDetails(getItInstance()));
+  //! sub Categories Repository (Remote Data Source)
+  getItInstance.registerLazySingleton<GetSubCatogeries>(
+    () => GetSubCatogeries(getItInstance()),
+  );
   //! save product as favorite Repository (Local Data Source)
   getItInstance
       .registerLazySingleton<SaveProduct>(() => SaveProduct(getItInstance()));
@@ -154,6 +169,13 @@ Future init() async {
       () => MenuRepositoryImpl(getItInstance()));
   getItInstance.registerLazySingleton<MenuRepositoryImpl>(
       () => MenuRepositoryImpl(getItInstance()));
+  getItInstance.registerLazySingleton<SubCategoryRepositoryImpl>(
+    () => SubCategoryRepositoryImpl(
+          getItInstance()
+        )
+  );
+
+
 
   //! factorys for shopping backdrop bloc
   getItInstance.registerFactory(() => ShoppingBackdropBloc());
@@ -181,6 +203,15 @@ Future init() async {
       loadingCubit: getItInstance(),
       getProductDetails: getItInstance(),
       favoriteBloc: getItInstance(),
+    ),
+  );
+
+  //! factorys for SubCategory bloc
+
+  getItInstance.registerFactory(
+    () => SubCategoriesBloc(
+      loadingCubit: getItInstance(),
+      getSubCategories: getItInstance(),
     ),
   );
 
