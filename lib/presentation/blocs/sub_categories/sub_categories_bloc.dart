@@ -22,7 +22,9 @@ class SubCategoriesBloc extends Bloc<SubCategoriesEvent, SubCategoriesState> {
           await getSubCategories(SubCategoryParams(id: event.id));
       eitherReponse.fold(
         (l) => emit(SubCategoriesError()),
-        (r) => emit(SubCategoriesLoaded(subCategories: r, id: event.id)),
+        (r) => emit(SubCategoriesLoaded(
+            subCategories: [SubCategoryEntity(id: event.id, nom: "all"), ...r],
+            id: event.id)),
       );
       loadingCubit.hide();
     });

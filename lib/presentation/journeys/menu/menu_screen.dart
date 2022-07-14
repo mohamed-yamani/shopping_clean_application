@@ -15,49 +15,62 @@ class MenuScreen extends StatelessWidget {
     return DefaultTabController(
       length: arguments.menu.length,
       child: Scaffold(
-        body: 
-         SafeArea(
-           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-             children: [
-               TabBar(
-                  tabs: arguments.menu.map((e) => Tab(text: e.nom!.capitalize())).toList(),
-                ),
-                Expanded(
-                  child: Stack(
-                    children: [
-                      TabBarView(
-                        children: arguments.menu.map((category1) => Padding(
-                          padding:  EdgeInsets.all(Sizes.dimen_20.w),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                            children: category1.children!.map((category2) => 
-                            Padding(
-                              padding: EdgeInsets.all(Sizes.dimen_16.w),
-                              child: InkWell(
-                                onTap: () => Navigator.of(context).pushNamed(RouteList.productsList,
-                                arguments: ProductsListArguments(defaultIndex: category2.id, menu: category1
-                                ),
+        appBar: AppBar(
+          title: Text(''),
+          bottom: TabBar(
+            isScrollable: true,
+            tabs: arguments.menu.map((menu) {
+              return Tab(
+                text: menu.nom!.capitalize(),
+              );
+            }).toList(),
+          ),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: TabBarView(
+                children: arguments.menu
+                    .map(
+                      (category1) => Padding(
+                        padding: EdgeInsets.all(Sizes.dimen_20.w),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: category1.children!
+                              .map((category2) => Padding(
+                                    padding: EdgeInsets.all(Sizes.dimen_16.w),
+                                    child: InkWell(
+                                      onTap: () =>
+                                          Navigator.of(context).pushNamed(
+                                        RouteList.productsList,
+                                        arguments: ProductsListArguments(
+                                            defaultIndex: category2.id,
+                                            menu: category1),
+                                      ),
+                                      child: Text(
+                                        category2.nom!.toString().capitalize(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge!
+                                            .copyWith(
+                                              fontSize: Sizes.dimen_24.sp,
+                                            ),
+                                      ),
                                     ),
-                                child: Text(category2.nom!.toString().capitalize(),
-                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                  fontSize: Sizes.dimen_24.sp,
-                                ),),
-                              ),
-                            )
-                            ).toList(),
-                          ),
-                        ),).toList(),
+                                  ))
+                              .toList(),
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-             ],
-           ),
-         ),
+                    )
+                    .toList(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
