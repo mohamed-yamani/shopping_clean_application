@@ -9,7 +9,6 @@ import 'package:petshop/domain/entites/product_details_entity.dart';
 import 'package:petshop/presentation/blocs/favorite/favorite_bloc.dart';
 import 'package:petshop/presentation/blocs/photo_product_color/photo_product_color_bloc.dart';
 import 'package:petshop/presentation/blocs/product_details/product_details_bloc.dart';
-import 'package:petshop/presentation/journeys/product_details/big_poster.dart';
 import 'package:petshop/presentation/journeys/product_details/colors_circles_list.dart';
 import 'package:petshop/presentation/journeys/product_details/images_view.dart';
 import 'package:petshop/presentation/journeys/product_details/product_detail_arguments.dart';

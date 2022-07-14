@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:petshop/common/constants/size_constants.dart';
 import 'package:petshop/common/extensions/size_extensions.dart';
 import 'package:petshop/common/screenutil/screenutil.dart';
+import 'package:petshop/domain/entites/menu_entity.dart';
 import 'package:petshop/presentation/journeys/home/shopping_carousel/shopping_card_widget.dart';
 
 class AnimatedShoppingCardWidget extends StatelessWidget {
@@ -9,12 +10,14 @@ class AnimatedShoppingCardWidget extends StatelessWidget {
   final int categoryId;
   final String posterPath;
   final PageController pageController;
+  final List<MenuEntity> menu;
 
   const AnimatedShoppingCardWidget(
       {Key? key,
       required this.index,
       required this.categoryId,
       required this.posterPath,
+      required this.menu,
       required this.pageController})
       : super(key: key);
 
@@ -54,6 +57,7 @@ class AnimatedShoppingCardWidget extends StatelessWidget {
       child: ShoppingCardWidget(
         defaultIndex: index,
         posterPath: posterPath,
+        menu: menu,
       ),
     );
   }

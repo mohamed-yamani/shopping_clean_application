@@ -52,6 +52,7 @@ class _ShoppingPageViewState extends State<ShoppingPageView> {
               index: index,
               pageController: _pageController,
               categoryId: menu.id!,
+              menu: widget.menuList,
               posterPath: menu.photoPrincipal!);
         },
         pageSnapping: true,

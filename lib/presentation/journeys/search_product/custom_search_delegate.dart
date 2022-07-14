@@ -45,7 +45,7 @@ class CustomSearchDelegate extends SearchDelegate {
               size: Sizes.dimen_8.h,
             )),
     ];
-  }
+  } // build\app\outputs\flutter-apk\
 
   @override
   Widget? buildLeading(BuildContext context) {
