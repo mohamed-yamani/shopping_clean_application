@@ -17,6 +17,7 @@ abstract class ProductRemoteDataSource {
   Future<ProductDetailsModel> getProductDetails(int id);
   Future<List<PhotoProduitColorModel>> getPhotoProductColor(
       String codeCouleur, String produitId);
+  Future<ProductResultModel> getProductByCategory(int id);
 }
 
 class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
@@ -87,5 +88,12 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
       photosProductColor.add(PhotoProduitColorModel.fromJson(element));
     });
     return photosProductColor;
+  }
+
+  @override
+  Future<ProductResultModel> getProductByCategory(int id) async {
+    final response = await _client.get('/api/produit?categorie=$id');
+    final products = ProductResultModel.fromJson(response);
+    return products;
   }
 }

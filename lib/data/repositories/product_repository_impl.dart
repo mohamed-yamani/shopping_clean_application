@@ -11,6 +11,7 @@ import 'package:petshop/data/tables/product_table.dart';
 import 'package:petshop/domain/entites/app_error.dart';
 import 'package:petshop/domain/entites/photo_product_color_entity.dart';
 import 'package:petshop/domain/entites/product_entity.dart';
+import 'package:petshop/domain/entites/producte_result_entity.dart';
 import 'package:petshop/domain/repositories/product_repositories.dart';
 
 class ProductRepositoryImpl extends ProductRepository {
@@ -146,6 +147,17 @@ class ProductRepositoryImpl extends ProductRepository {
     try {
       final response = await _productRemoteDataSource.getPhotoProductColor(
           codeCouleur, produitId);
+      return Right(response);
+    } on Exception {
+      return const Left(AppError(AppErrorType.api));
+    }
+  }
+
+  @override
+  Future<Either<AppError, ProductResultEntity>> getProductByCategory(
+      int id) async {
+    try {
+      final response = await _productRemoteDataSource.getProductByCategory(id);
       return Right(response);
     } on Exception {
       return const Left(AppError(AppErrorType.api));

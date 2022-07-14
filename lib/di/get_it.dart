@@ -31,6 +31,7 @@ import 'package:petshop/domain/usecases/get_photo_product_color.dart';
 import 'package:petshop/domain/usecases/get_popular_products.dart';
 import 'package:petshop/domain/usecases/get_preferred_language.dart';
 import 'package:petshop/domain/usecases/get_preferred_theme.dart';
+import 'package:petshop/domain/usecases/get_product_by_category.dart';
 import 'package:petshop/domain/usecases/get_product_details.dart';
 import 'package:petshop/domain/usecases/get_products.dart';
 import 'package:petshop/domain/usecases/get_promotion_products.dart';
@@ -48,6 +49,7 @@ import 'package:petshop/presentation/blocs/loading/loading_cubit.dart';
 import 'package:petshop/presentation/blocs/login/login_bloc.dart';
 import 'package:petshop/presentation/blocs/nouvelle_collection/nouvelle_collection_bloc.dart';
 import 'package:petshop/presentation/blocs/photo_product_color/photo_product_color_bloc.dart';
+import 'package:petshop/presentation/blocs/product_by_category/product_by_category_bloc.dart';
 import 'package:petshop/presentation/blocs/product_details/product_details_bloc.dart';
 import 'package:petshop/presentation/blocs/serach_product/serach_product_bloc.dart';
 import 'package:petshop/presentation/blocs/shopping_backdrop/shopping_backdrop_bloc.dart';
@@ -86,9 +88,9 @@ Future init() async {
       () => ProductRemoteDataSourceImpl(getItInstance()));
   getItInstance.registerLazySingleton<ThemeLocalDataSource>(
       () => ThemeLocalDataSourceImpl());
-  getItInstance.registerLazySingleton<SubCategoryRepository>(() => 
-  SubCategoryRepositoryImpl(getItInstance()));
-  
+  getItInstance.registerLazySingleton<SubCategoryRepository>(
+      () => SubCategoryRepositoryImpl(getItInstance()));
+
   //! Nouvelle Collection Repository
   getItInstance.registerLazySingleton<NouvelleCollectionRepository>(
       () => NouvelleCollectionRepositoryImpl(getItInstance()));
@@ -128,6 +130,9 @@ Future init() async {
   //! Product Detail Repository (Remote Data Source)
   getItInstance.registerLazySingleton<GetProductDetails>(
       () => GetProductDetails(getItInstance()));
+  //! get Product By Category Repository (Remote Data Source)
+  getItInstance.registerLazySingleton<GetProductByCategory>(
+      () => GetProductByCategory(getItInstance()));
   //! sub Categories Repository (Remote Data Source)
   getItInstance.registerLazySingleton<GetSubCatogeries>(
     () => GetSubCatogeries(getItInstance()),
@@ -170,12 +175,7 @@ Future init() async {
   getItInstance.registerLazySingleton<MenuRepositoryImpl>(
       () => MenuRepositoryImpl(getItInstance()));
   getItInstance.registerLazySingleton<SubCategoryRepositoryImpl>(
-    () => SubCategoryRepositoryImpl(
-          getItInstance()
-        )
-  );
-
-
+      () => SubCategoryRepositoryImpl(getItInstance()));
 
   //! factorys for shopping backdrop bloc
   getItInstance.registerFactory(() => ShoppingBackdropBloc());
@@ -203,6 +203,14 @@ Future init() async {
       loadingCubit: getItInstance(),
       getProductDetails: getItInstance(),
       favoriteBloc: getItInstance(),
+    ),
+  );
+
+  //! factorys for product by sub category bloc
+  getItInstance.registerFactory(
+    () => ProductByCategoryBloc(
+      loadingCubit: getItInstance(),
+      getProductByCategory: getItInstance(),
     ),
   );
 
