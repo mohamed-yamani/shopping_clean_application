@@ -22,11 +22,10 @@ class ProductByCategoryBloc
       loadingCubit.show();
       final Either<AppError, ProductResultEntity> eitherReponse =
           await getProductByCategory(ProductParams(id: event.categoryId));
-      emit(ProductByCategoryLoadingState());
       eitherReponse.fold(
           (l) => emit(ProductByCategoryErrorState()),
           (r) => emit(ProductByCategoryLoadedState(
-              productResultEntity: r, categoryId: event.categoryId)));
+              productResult: r, categoryId: event.categoryId)));
       loadingCubit.hide();
     });
   }

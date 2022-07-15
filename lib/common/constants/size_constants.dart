@@ -19,11 +19,16 @@ class Sizes {
   static const double dimen_18 = 18.0;
   static const double dimen_19 = 19.0;
   static const double dimen_20 = 20.0;
+  static const double dimen_22 = 22.0;
   static const double dimen_24 = 24.0;
   static const double dimen_25 = 25.0;
+  static const double dimen_26 = 26.0;
+  static const double dimen_27 = 27.0;
   static const double dimen_30 = 30.0;
   static const double dimen_32 = 32.0;
   static const double dimen_40 = 40.0;
+  static const double dimen_42 = 42.0;
+  static const double dimen_44 = 44.0;
   static const double dimen_50 = 50.0;
   static const double dimen_60 = 60.0;
   static const double dimen_70 = 70.0;

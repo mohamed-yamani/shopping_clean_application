@@ -23,6 +23,7 @@ class _ProductsListScreenState extends State<ProductsListScreen>
     with TickerProviderStateMixin {
   SubCategoriesBloc? _subCategoriesBloc;
   ProductByCategoryBloc? _productByCategoryBloc;
+  ScrollController? _scrollController;
 
   @override
   void initState() {
@@ -32,6 +33,7 @@ class _ProductsListScreenState extends State<ProductsListScreen>
     _productByCategoryBloc = getItInstance<ProductByCategoryBloc>();
     _productByCategoryBloc!.add(
         ProductByCategoryLoadEvent(categoryId: widget.arguments.defaultIndex));
+    _scrollController = ScrollController();
     super.initState();
   }
 
@@ -39,7 +41,7 @@ class _ProductsListScreenState extends State<ProductsListScreen>
   void dispose() {
     _subCategoriesBloc!.close();
     _productByCategoryBloc!.close();
-
+    _scrollController!.dispose();
     super.dispose();
   }
 
@@ -53,41 +55,59 @@ class _ProductsListScreenState extends State<ProductsListScreen>
       child: BlocBuilder<SubCategoriesBloc, SubCategoriesState>(
         builder: (context, state) {
           if (state is SubCategoriesLoaded) {
-            return DefaultTabController(
-              length: state.subCategories.length,
-              child: Scaffold(
-                  appBar: AppBar(
+            return Scaffold(
+              body: NestedScrollView(
+                controller: _scrollController,
+                body: Column(
+                  children: [
+                    ProductsList(
+                      subCategories: state.subCategories,
+                    ),
+                  ],
+                ),
+                headerSliverBuilder:
+                    (BuildContext context, bool innerBoxIsScrolled) => [
+                  SliverAppBar(
+                    backgroundColor: Colors.black.withAlpha(950),
+                    floating: true,
+                    snap: true,
+                    centerTitle: true,
+                    expandedHeight: Sizes.dimen_42.h,
                     title: Text(
                       '${state.id}',
                       style: const TextStyle(fontSize: 20),
                     ),
-                    centerTitle: true,
-                    bottom: TabBar(
-                      key: const Key('tabBar'),
-                      isScrollable: true,
-                      onTap: (value) {
-                        _productByCategoryBloc!.add(ProductByCategoryLoadEvent(
-                          categoryId: state.subCategories[value].id!,
-                        ));
-                      },
-                      indicator: UnderlineTabIndicator(
-                        borderSide: const BorderSide(
-                          color: Colors.white,
-                          width: 1,
+                    bottom: PreferredSize(
+                      preferredSize: Size.fromHeight(Sizes.dimen_10.h),
+                      child: Container(
+                        height: Sizes.dimen_22.h,
+                        color: Colors.black.withAlpha(860),
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: state.subCategories.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                _productByCategoryBloc!
+                                    .add(ProductByCategoryLoadEvent(
+                                  categoryId: state.subCategories[index].id!,
+                                ));
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(Sizes.dimen_16.w),
+                                child: Text(
+                                  state.subCategories[index].nom!.capitalize(),
+                                  style: Theme.of(context).textTheme.headline6,
+                                ),
+                              ),
+                            );
+                          },
                         ),
-                        insets:
-                            EdgeInsets.symmetric(horizontal: Sizes.dimen_16.w),
                       ),
-                      tabs: state.subCategories.map((subCategory) {
-                        return Tab(
-                          text: subCategory.nom!.capitalize(),
-                        );
-                      }).toList(),
                     ),
                   ),
-                  body: ProductsList(
-                    subCategories: state.subCategories,
-                  )),
+                ],
+              ),
             );
           }
           return const SizedBox.shrink();

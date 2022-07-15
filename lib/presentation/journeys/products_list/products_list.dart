@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:petshop/common/constants/size_constants.dart';
+import 'package:petshop/common/extensions/size_extensions.dart';
 import 'package:petshop/data/models/product_model.dart';
 import 'package:petshop/domain/entites/sub_category_entity.dart';
 import 'package:petshop/presentation/blocs/product_by_category/product_by_category_bloc.dart';
@@ -15,21 +17,9 @@ class ProductsList extends StatelessWidget {
     return BlocBuilder<ProductByCategoryBloc, ProductByCategoryState>(
       builder: (context, state) {
         if (state is ProductByCategoryLoadedState) {
-          List<ProductModel>? products = state.productResultEntity.products;
-          return Column(
-            children: [
-              Expanded(
-                child: TabBarView(
-                  children: subCategories
-                      .map((subCategory) => Column(children: [
-                            ProductListCard(products: products),
-
-                            // products!.map((e) => Text(e.nom!)).toList(),
-                          ]))
-                      .toList(),
-                ),
-              ),
-            ],
+          List<ProductModel>? products = state.productResult.products;
+          return Expanded(
+            child: ProductListCard(products: products),
           );
         }
         return const SizedBox.shrink();

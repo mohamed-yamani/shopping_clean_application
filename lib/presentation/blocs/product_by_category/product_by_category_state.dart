@@ -14,12 +14,12 @@ class ProductByCategoryLoadingState extends ProductByCategoryState {}
 class ProductByCategoryErrorState extends ProductByCategoryState {}
 
 class ProductByCategoryLoadedState extends ProductByCategoryState {
-  final ProductResultEntity productResultEntity;
+  final ProductResultEntity productResult;
   final int categoryId;
 
   const ProductByCategoryLoadedState(
-      {required this.productResultEntity, required this.categoryId});
+      {required this.productResult, required this.categoryId});
 
   @override
-  List<Object> get props => [productResultEntity, categoryId];
+  List<Object> get props => [productResult, categoryId];
 }
