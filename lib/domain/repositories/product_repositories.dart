@@ -20,5 +20,6 @@ abstract class ProductRepository {
   Future<Either<AppError, List<ProductEntity>>> getFavoriteProducts();
   Future<Either<AppError, List<PhotoProductColorEntity>>> getPhotoProductColor(
       String codeCouleur, String produitId);
-  Future<Either<AppError, ProductResultEntity>> getProductByCategory(int id);
+  Future<Either<AppError, ProductResultEntity>> getProductByCategory(
+      int id, int page);
 }

@@ -16,4 +16,6 @@ class ProductResultEntity extends Equatable {
 
   @override
   List<Object?> get props => [count, next, previous, products];
+
+  copyWith({required List<ProductModel> products}) {}
 }

@@ -155,9 +155,9 @@ class ProductRepositoryImpl extends ProductRepository {
 
   @override
   Future<Either<AppError, ProductResultEntity>> getProductByCategory(
-      int id) async {
+      int id, int page) async {
     try {
-      final response = await _productRemoteDataSource.getProductByCategory(id);
+      final response = await _productRemoteDataSource.getProductByCategory(id: id, page: page);
       return Right(response);
     } on Exception {
       return const Left(AppError(AppErrorType.api));
