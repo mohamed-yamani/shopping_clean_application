@@ -3,6 +3,7 @@ import 'package:http/http.dart';
 import 'package:petshop/data/core/api_client.dart';
 import 'package:petshop/data/data_sources/authentication_local_data_source.dart';
 import 'package:petshop/data/data_sources/authentication_remote_data_source.dart';
+import 'package:petshop/data/data_sources/google_auth_remote_data_source.dart';
 import 'package:petshop/data/data_sources/language_local_data_source.dart';
 import 'package:petshop/data/data_sources/menu_remote_data_source.dart';
 import 'package:petshop/data/data_sources/nouvelle_collection_remote_data_source.dart';
@@ -11,12 +12,14 @@ import 'package:petshop/data/data_sources/product_remote_data_source.dart';
 import 'package:petshop/data/data_sources/sub_category_remote_data_source.dart';
 import 'package:petshop/data/data_sources/theme_local_data_source.dart';
 import 'package:petshop/data/repositories/app_repository_impl.dart';
+import 'package:petshop/data/repositories/auth_repository_impl.dart';
 import 'package:petshop/data/repositories/authenticationRepositoryImpl.dart';
 import 'package:petshop/data/repositories/menu_repository_impl.dart';
 import 'package:petshop/data/repositories/nouvelle_collection_repository_impl.dart';
 import 'package:petshop/data/repositories/product_repository_impl.dart';
 import 'package:petshop/data/repositories/sub_category_repository_impl.dart';
 import 'package:petshop/domain/repositories/app_repository.dart';
+import 'package:petshop/domain/repositories/auth_repository.dart';
 import 'package:petshop/domain/repositories/menu_repositories.dart';
 import 'package:petshop/domain/repositories/nouvelle_collection_repository.dart';
 import 'package:petshop/domain/repositories/product_repositories.dart';
@@ -37,6 +40,7 @@ import 'package:petshop/domain/usecases/get_products.dart';
 import 'package:petshop/domain/usecases/get_promotion_products.dart';
 import 'package:petshop/domain/usecases/get_sub_categories.dart';
 import 'package:petshop/domain/usecases/login_user.dart';
+import 'package:petshop/domain/usecases/login_with_google.dart';
 import 'package:petshop/domain/usecases/logout_user.dart';
 import 'package:petshop/domain/usecases/save_product.dart';
 import 'package:petshop/domain/usecases/search_products.dart';
@@ -46,7 +50,6 @@ import 'package:petshop/presentation/blocs/carousel/carousel_bloc.dart';
 import 'package:petshop/presentation/blocs/favorite/favorite_bloc.dart';
 import 'package:petshop/presentation/blocs/language/language_bloc.dart';
 import 'package:petshop/presentation/blocs/loading/loading_cubit.dart';
-import 'package:petshop/presentation/blocs/login/login_bloc.dart';
 import 'package:petshop/presentation/blocs/nouvelle_collection/nouvelle_collection_bloc.dart';
 import 'package:petshop/presentation/blocs/photo_product_color/photo_product_color_bloc.dart';
 import 'package:petshop/presentation/blocs/product_by_category/product_by_category_bloc.dart';
@@ -54,6 +57,7 @@ import 'package:petshop/presentation/blocs/product_details/product_details_bloc.
 import 'package:petshop/presentation/blocs/serach_product/serach_product_bloc.dart';
 import 'package:petshop/presentation/blocs/shopping_backdrop/shopping_backdrop_bloc.dart';
 import 'package:petshop/presentation/blocs/shopping_tabbed/shopping_tabbed_bloc.dart';
+import 'package:petshop/presentation/blocs/sign_with_google/sign_with_google_bloc.dart';
 import 'package:petshop/presentation/blocs/sub_categories/sub_categories_bloc.dart';
 import 'package:petshop/presentation/blocs/theme/theme_cubit.dart';
 
@@ -94,6 +98,9 @@ Future init() async {
   //! Nouvelle Collection Repository
   getItInstance.registerLazySingleton<NouvelleCollectionRepository>(
       () => NouvelleCollectionRepositoryImpl(getItInstance()));
+  // ! Authentication Repository
+  getItInstance.registerLazySingleton<AuthRepository>(
+      () => AuthRepositoryImpl(googleAuthRemoteDataSource: getItInstance()));
   //! Nouvelle Collection usecase
   getItInstance.registerLazySingleton<GetNouvelleCollection>(
       () => GetNouvelleCollection(getItInstance()));
@@ -105,6 +112,9 @@ Future init() async {
   //! Authentication Repository (Remote Data Source) AuthenticationRemoteDataSource
   getItInstance.registerLazySingleton<AuthenticationRemoteDataSource>(
       () => AuthenticationRemoteDataSourceImpl(getItInstance()));
+  //! GoogleAuthRemoteDataSource (Remote Data Source)
+  getItInstance.registerLazySingleton<GoogleAuthRemoteDataSource>(
+      () => GoogleAuthRemoteDataSourceImpl());
   //! Authentication Repository (Local Data Source) AuthenticationLocalDataSource
   getItInstance.registerLazySingleton<AuthenticationLocalDataSource>(
       () => AuthenticationLocalDataSourceImpl());
@@ -133,6 +143,9 @@ Future init() async {
   //! get Product By Category Repository (Remote Data Source)
   getItInstance.registerLazySingleton<GetProductByCategory>(
       () => GetProductByCategory(getItInstance()));
+  //! login With Google usecase
+  getItInstance.registerLazySingleton<LoginWithGoogle>(
+      () => LoginWithGoogle(getItInstance()));
   //! sub Categories Repository (Remote Data Source)
   getItInstance.registerLazySingleton<GetSubCatogeries>(
     () => GetSubCatogeries(getItInstance()),
@@ -253,11 +266,11 @@ Future init() async {
   //! logout use case
   getItInstance
       .registerLazySingleton<LogoutUser>(() => LogoutUser(getItInstance()));
-  //! login bloc
-  getItInstance.registerFactory(() => LoginBloc(
-        getItInstance(),
+
+  //! sign with google bloc
+  getItInstance.registerFactory(() => SignWithGoogleBloc(
         loadingCubit: getItInstance(),
-        loginUser: getItInstance(),
+        loginWithGoogle: getItInstance(),
       ));
 
   //! search product and search product bloc

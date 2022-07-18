@@ -20,5 +20,8 @@
     "noFavoriteProducts": "لا يوجد منتجات مفضلة",
     "login": "تسجيل الدخول",
     "logout": "تسجيل الخروج",
-    "guestLogin": "تسجيل الدخول الضيف"
+    "guestLogin": "تسجيل الدخول الضيف",
+    "siginInWithGoogle": "تسجيل الدخول باستخدام جوجل",
+    "signInWithFacebook": "تسجيل الدخول باستخدام فيسبوك",
+    "signInWithApple": "تسجيل الدخول باستخدام اكسبلوت"
 }

@@ -20,5 +20,8 @@
     "noFavoriteProducts": "No favorite products found",
     "login": "Login",
     "logout": "Logout",
-    "guestLogin": "Guest Login"
+    "guestLogin": "Guest Login",
+    "siginInWithGoogle": "Sign in with Google",
+    "signInWithFacebook": "Sign in with Facebook",
+    "signInWithApple": "Sign in with Apple"
 }

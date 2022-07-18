@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:petshop/domain/entites/menu_entity.dart';
 
 class MenuModel extends MenuEntity {

@@ -4,7 +4,7 @@ import 'package:petshop/common/constants/route_constants.dart';
 import 'package:petshop/common/constants/size_constants.dart';
 import 'package:petshop/common/constants/translation_constants.dart';
 import 'package:petshop/common/extensions/size_extensions.dart';
-import 'package:petshop/presentation/blocs/login/login_bloc.dart';
+import 'package:petshop/presentation/blocs/sign_with_google/sign_with_google_bloc.dart';
 import 'package:petshop/presentation/journeys/login/label_field_widget.dart';
 import 'package:petshop/presentation/widgets/button.dart';
 
@@ -57,25 +57,27 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          LabelFieldWidget(
-            label: 'Username',
-            hintText: 'Enter your username',
-            controller: _userNameController,
-          ),
-          LabelFieldWidget(
-            label: 'Password',
-            hintText: 'Enter your password',
-            controller: _passwordController,
-            obscureText: true,
-          ),
-          BlocConsumer<LoginBloc, LoginState>(
-              buildWhen: (previous, current) => current is LoginError,
+          if (false == true)
+            LabelFieldWidget(
+              label: 'Username',
+              hintText: 'Enter your username',
+              controller: _userNameController,
+            ),
+          if (false == true)
+            LabelFieldWidget(
+              label: 'Password',
+              hintText: 'Enter your password',
+              controller: _passwordController,
+              obscureText: true,
+            ),
+          BlocConsumer<SignWithGoogleBloc, SignWithGoogleState>(
+              buildWhen: (previous, current) => current is SignWithGoogleError,
               builder: (context, state) {
                 print('LoginError from LoginForm');
 
-                if (state is LoginError) {
+                if (state is SignWithGoogleError) {
                   return Text(
-                    'submit error: ${state.error}',
+                    'submit error: ${state.appError}',
                     style: Theme.of(context).textTheme.bodyText1!.copyWith(
                           color: Colors.red,
                         ),
@@ -83,26 +85,30 @@ class _LoginFormState extends State<LoginForm> {
                 }
                 return const SizedBox.shrink();
               },
-              listenWhen: (previous, current) => current is LoginSuccess,
+              listenWhen: (previous, current) =>
+                  current is SignWithGoogleSuccess,
               listener: (context, state) {
                 print('LoginSuccess from LoginForm');
                 Navigator.of(context)
                     .pushNamedAndRemoveUntil(RouteList.home, (route) => false);
               }),
           Button(
-            text: TranslationConstants.login,
+            text: TranslationConstants.siginInWithGoogle,
             isEnabled: enableSignIn,
             onPressed: () {
               print('Login button pressed');
-              BlocProvider.of<LoginBloc>(context).add(LoginInitialEvent(
-                  username: _userNameController!.text,
-                  password: _passwordController!.text));
+              BlocProvider.of<SignWithGoogleBloc>(context).add(
+                const SignWithGoogleButtonPressed(),
+              );
+              // BlocProvider.of<LoginBloc>(context).add(LoginInitialEvent(
+              //     username: _userNameController!.text,
+              //     password: _passwordController!.text));
             },
           ),
           Button(
               text: TranslationConstants.guestLogin,
-              onPressed: () =>
-                  BlocProvider.of<LoginBloc>(context).add(GuestLoginEvent())),
+              onPressed: () => BlocProvider.of<SignWithGoogleBloc>(context)
+                  .add(const SignWithGoogleButtonEvent())),
         ],
       ),
     ));

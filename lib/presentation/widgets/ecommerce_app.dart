@@ -9,7 +9,7 @@ import 'package:petshop/di/get_it.dart';
 import 'package:petshop/presentation/app_localizations.dart';
 import 'package:petshop/presentation/blocs/language/language_bloc.dart';
 import 'package:petshop/presentation/blocs/loading/loading_cubit.dart';
-import 'package:petshop/presentation/blocs/login/login_bloc.dart';
+import 'package:petshop/presentation/blocs/sign_with_google/sign_with_google_bloc.dart';
 import 'package:petshop/presentation/blocs/theme/theme_cubit.dart';
 import 'package:petshop/presentation/fade_page_route_builder.dart';
 import 'package:petshop/presentation/journeys/loading/loading_screen.dart';
@@ -28,7 +28,7 @@ class EcommerceApp extends StatefulWidget {
 class _EcommerceAppState extends State<EcommerceApp> {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
   LanguageBloc? _languageBloc;
-  LoginBloc? _loginBloc;
+  SignWithGoogleBloc? _signWithGoogleBloc;
   LoadingCubit? _loadingCubit;
   ThemeCubit? _themeCubit;
 
@@ -36,7 +36,7 @@ class _EcommerceAppState extends State<EcommerceApp> {
   void initState() {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     _languageBloc = getItInstance<LanguageBloc>();
-    _loginBloc = getItInstance<LoginBloc>();
+    _signWithGoogleBloc = getItInstance<SignWithGoogleBloc>();
     _loadingCubit = getItInstance<LoadingCubit>();
     _languageBloc?.add(LoadPreferredLanguageEvent());
     _themeCubit = getItInstance<ThemeCubit>();
@@ -48,8 +48,8 @@ class _EcommerceAppState extends State<EcommerceApp> {
   @override
   void dispose() {
     _languageBloc!.close();
-    _loginBloc!.close();
     _loadingCubit!.close();
+    _signWithGoogleBloc!.close();
     _themeCubit!.close();
     super.dispose();
   }
@@ -62,14 +62,14 @@ class _EcommerceAppState extends State<EcommerceApp> {
         BlocProvider<LanguageBloc>.value(
           value: _languageBloc!,
         ),
-        BlocProvider<LoginBloc>.value(
-          value: _loginBloc!,
-        ),
         BlocProvider<LoadingCubit>.value(
           value: _loadingCubit!,
         ),
         BlocProvider<ThemeCubit>.value(
           value: _themeCubit!,
+        ),
+        BlocProvider<SignWithGoogleBloc>.value(
+          value: _signWithGoogleBloc!,
         ),
       ],
       child: BlocBuilder<ThemeCubit, Themes>(

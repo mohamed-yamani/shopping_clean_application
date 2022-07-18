@@ -106,7 +106,6 @@ class _ProductsListScreenState extends State<ProductsListScreen>
               },
               child: Scaffold(
                 body: NestedScrollView(
-                  
                   controller: _scrollController,
                   body: SmartRefresher(
                     footer: const ClassicFooter(

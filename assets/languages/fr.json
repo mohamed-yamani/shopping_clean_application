@@ -20,5 +20,8 @@
     "noFavoriteProducts": "Aucun produit préféré",
     "login": "connectez-vous",
     "logout": "déconnectez-vous",
-    "guestLogin": "connexion invité"
+    "guestLogin": "connexion invité",
+    "siginInWithGoogle": "connectez-vous avec Google",
+    "signInWithFacebook": "connectez-vous avec Facebook",
+    "signInWithApple": "connectez-vous avec Apple"
 }
