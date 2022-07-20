@@ -23,5 +23,6 @@
     "guestLogin": "Guest Login",
     "siginInWithGoogle": "Sign in with Google",
     "signInWithFacebook": "Sign in with Facebook",
-    "signInWithApple": "Sign in with Apple"
+    "signInWithApple": "Sign in with Apple",
+    "logoutDescriptionlogoutDescription": "Are you sure you want to logout?"
 }

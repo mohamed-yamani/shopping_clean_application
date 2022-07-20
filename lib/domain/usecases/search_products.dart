@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:petshop/domain/entites/app_error.dart';
-import 'package:petshop/domain/entites/no_params.dart';
 import 'package:petshop/domain/entites/product_entity.dart';
 import 'package:petshop/domain/entites/product_serach_params.dart';
 import 'package:petshop/domain/repositories/product_repositories.dart';

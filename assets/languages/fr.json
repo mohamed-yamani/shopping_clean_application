@@ -23,5 +23,6 @@
     "guestLogin": "connexion invité",
     "siginInWithGoogle": "connectez-vous avec Google",
     "signInWithFacebook": "connectez-vous avec Facebook",
-    "signInWithApple": "connectez-vous avec Apple"
+    "signInWithApple": "connectez-vous avec Apple",
+    "logoutDescription": "Êtes-vous sûr de vouloir vous déconnecter?"
 }

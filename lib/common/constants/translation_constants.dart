@@ -24,4 +24,5 @@ class TranslationConstants {
   static const siginInWithGoogle = 'siginInWithGoogle';
   static const signInWithFacebook = 'signInWithFacebook';
   static const signInWithApple = 'signInWithApple';
+  static const logoutDescription = 'logoutDescription';
 }

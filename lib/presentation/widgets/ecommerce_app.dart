@@ -9,7 +9,7 @@ import 'package:petshop/di/get_it.dart';
 import 'package:petshop/presentation/app_localizations.dart';
 import 'package:petshop/presentation/blocs/language/language_bloc.dart';
 import 'package:petshop/presentation/blocs/loading/loading_cubit.dart';
-import 'package:petshop/presentation/blocs/sign_with_google/sign_with_google_bloc.dart';
+import 'package:petshop/presentation/blocs/sign_in/sign_in_bloc.dart';
 import 'package:petshop/presentation/blocs/theme/theme_cubit.dart';
 import 'package:petshop/presentation/fade_page_route_builder.dart';
 import 'package:petshop/presentation/journeys/loading/loading_screen.dart';
@@ -28,7 +28,7 @@ class EcommerceApp extends StatefulWidget {
 class _EcommerceAppState extends State<EcommerceApp> {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
   LanguageBloc? _languageBloc;
-  SignWithGoogleBloc? _signWithGoogleBloc;
+  SignInBloc? _signInBloc;
   LoadingCubit? _loadingCubit;
   ThemeCubit? _themeCubit;
 
@@ -36,9 +36,10 @@ class _EcommerceAppState extends State<EcommerceApp> {
   void initState() {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     _languageBloc = getItInstance<LanguageBloc>();
-    _signWithGoogleBloc = getItInstance<SignWithGoogleBloc>();
     _loadingCubit = getItInstance<LoadingCubit>();
     _languageBloc?.add(LoadPreferredLanguageEvent());
+    _signInBloc = getItInstance<SignInBloc>();
+    _signInBloc!.add(CheckIfsessionExistsEvent());
     _themeCubit = getItInstance<ThemeCubit>();
     _themeCubit?.loadPreferredTheme();
 
@@ -49,7 +50,7 @@ class _EcommerceAppState extends State<EcommerceApp> {
   void dispose() {
     _languageBloc!.close();
     _loadingCubit!.close();
-    _signWithGoogleBloc!.close();
+    _signInBloc!.close();
     _themeCubit!.close();
     super.dispose();
   }
@@ -68,8 +69,8 @@ class _EcommerceAppState extends State<EcommerceApp> {
         BlocProvider<ThemeCubit>.value(
           value: _themeCubit!,
         ),
-        BlocProvider<SignWithGoogleBloc>.value(
-          value: _signWithGoogleBloc!,
+        BlocProvider<SignInBloc>.value(
+          value: _signInBloc!,
         ),
       ],
       child: BlocBuilder<ThemeCubit, Themes>(
@@ -135,7 +136,7 @@ class _EcommerceAppState extends State<EcommerceApp> {
                       return LoadingScreen(screen: child!);
                       return child!;
                     },
-                    initialRoute: RouteList.initial,
+                    initialRoute: RouteList.home,
                     onGenerateRoute: (RouteSettings settings) {
                       final routes = Routes.getRoutes(settings);
                       final WidgetBuilder builder = routes[settings.name]!;

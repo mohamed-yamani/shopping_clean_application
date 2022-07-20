@@ -7,11 +7,10 @@ import 'package:petshop/common/constants/translation_constants.dart';
 import 'package:petshop/common/extensions/size_extensions.dart';
 import 'package:petshop/common/extensions/string_extentions.dart';
 import 'package:petshop/presentation/blocs/language/language_bloc.dart';
-import 'package:petshop/presentation/blocs/sign_with_google/sign_with_google_bloc.dart';
+import 'package:petshop/presentation/blocs/sign_in/sign_in_bloc.dart';
 import 'package:petshop/presentation/blocs/theme/theme_cubit.dart';
 import 'package:petshop/presentation/journeys/drawer/navigation_Expanded_list_item.dart';
 import 'package:petshop/presentation/journeys/drawer/navigation_list_item.dart';
-import 'package:petshop/presentation/journeys/favorite/favorite_screen.dart';
 import 'package:petshop/presentation/themes/theme_color.dart';
 import 'package:petshop/presentation/widgets/app_dialog.dart';
 import 'package:petshop/presentation/widgets/logo.dart';
@@ -81,8 +80,8 @@ class NavigationDrawer extends StatelessWidget {
             },
             children: LanguagesConsts.languages.map((e) => e.value).toList(),
           ),
-          BlocListener<SignWithGoogleBloc, SignWithGoogleState>(
-            listenWhen: (previous, current) => current is SignWithGoogleSuccess,
+          BlocListener<SignInBloc, SignInState>(
+            listenWhen: (previous, current) => current is LogoutState,
             listener: (context, state) {
               Navigator.of(context)
                   .pushNamedAndRemoveUntil(RouteList.initial, (route) => false);
@@ -90,9 +89,9 @@ class NavigationDrawer extends StatelessWidget {
             child: NavigationListItem(
               title: TranslationConstants.logout.t(context),
               onPressed: () {
-                Navigator.of(context).pop();
-                // BlocProvider.of<SignWithGoogleBloc>(context).add(LogoutEvent());
-                // _showLogoutDialog(context);
+                // Navigator.of(context).pop();
+                // BlocProvider.of<SignInBloc>(context).add(LogOutButtonPressed());
+                _showLogoutDialog(context);
               },
             ),
           ),
@@ -129,6 +128,23 @@ class NavigationDrawer extends StatelessWidget {
           'assets/pngs/tmdb_logo.png',
           height: Sizes.dimen_32.h,
         ),
+      ),
+    );
+  }
+}
+
+class _showLogoutDialog {
+  _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AppDialog(
+        title: TranslationConstants.logout,
+        description: TranslationConstants.logoutDescription,
+        buttonText: TranslationConstants.logout,
+        onPressed: () {
+          Navigator.of(context).pop();
+          BlocProvider.of<SignInBloc>(context).add(LogOutButtonPressed());
+        },
       ),
     );
   }

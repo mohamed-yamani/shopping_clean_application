@@ -26,6 +26,7 @@ class ApiClient {
   }
 
   dynamic post(String path, {required Map<dynamic, dynamic> params}) async {
+    print(' 5');
     final response = await _client.post(
       Uri.parse('$_baseUrl$path'),
       body: jsonEncode(params),
@@ -37,8 +38,10 @@ class ApiClient {
     if (response.statusCode == 200) {
       return jsonDecode(utf8.decode(response.bodyBytes));
     } else if (response.statusCode == 401) {
+      print(' 6');
       throw UnauthorizedException();
     } else {
+      print(' 7' + response.toString());
       throw Exception(response.reasonPhrase);
     }
   }

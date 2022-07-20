@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
+import 'package:petshop/data/tables/convert_token_table.dart';
 import 'package:petshop/data/tables/product_table.dart';
 import 'package:petshop/presentation/widgets/ecommerce_app.dart';
 // import 'package:pedantic/pedantic.dart';
@@ -17,6 +18,7 @@ void main() async {
       await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDirectory.path);
   Hive.registerAdapter(ProductTableAdapter());
+  Hive.registerAdapter(ConvertTokenTableAdapter());
   unawaited(get_it.init());
   runApp(const EcommerceApp());
 }

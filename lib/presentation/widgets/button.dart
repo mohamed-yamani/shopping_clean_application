@@ -37,11 +37,11 @@ class Button extends StatelessWidget {
           Radius.circular(Sizes.dimen_20.w),
         ),
       ),
-      padding: EdgeInsets.symmetric(
+      padding: EdgeInsets.symmetric( 
         horizontal: Sizes.dimen_14.w,
       ),
       margin: EdgeInsets.symmetric(
-        vertical: Sizes.dimen_12.h,
+        vertical: Sizes.dimen_6.h,
       ),
       height: Sizes.dimen_18.h,
       child: OutlinedButton(

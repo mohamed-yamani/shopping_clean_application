@@ -4,7 +4,7 @@ import 'package:petshop/common/constants/route_constants.dart';
 import 'package:petshop/common/constants/size_constants.dart';
 import 'package:petshop/common/constants/translation_constants.dart';
 import 'package:petshop/common/extensions/size_extensions.dart';
-import 'package:petshop/presentation/blocs/sign_with_google/sign_with_google_bloc.dart';
+import 'package:petshop/presentation/blocs/sign_in/sign_in_bloc.dart';
 import 'package:petshop/presentation/journeys/login/label_field_widget.dart';
 import 'package:petshop/presentation/widgets/button.dart';
 
@@ -56,26 +56,12 @@ class _LoginFormState extends State<LoginForm> {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          if (false == true)
-            LabelFieldWidget(
-              label: 'Username',
-              hintText: 'Enter your username',
-              controller: _userNameController,
-            ),
-          if (false == true)
-            LabelFieldWidget(
-              label: 'Password',
-              hintText: 'Enter your password',
-              controller: _passwordController,
-              obscureText: true,
-            ),
-          BlocConsumer<SignWithGoogleBloc, SignWithGoogleState>(
-              buildWhen: (previous, current) => current is SignWithGoogleError,
+          BlocConsumer<SignInBloc, SignInState>(
+              buildWhen: (previous, current) => current is SignInError,
               builder: (context, state) {
-                print('LoginError from LoginForm');
-
-                if (state is SignWithGoogleError) {
+                if (state is SignInError) {
                   return Text(
                     'submit error: ${state.appError}',
                     style: Theme.of(context).textTheme.bodyText1!.copyWith(
@@ -86,29 +72,58 @@ class _LoginFormState extends State<LoginForm> {
                 return const SizedBox.shrink();
               },
               listenWhen: (previous, current) =>
-                  current is SignWithGoogleSuccess,
+                  current is GuestLoginState ||
+                  current is SignInSuccess ||
+                  current is IsSignIn,
               listener: (context, state) {
-                print('LoginSuccess from LoginForm');
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil(RouteList.home, (route) => false);
+                if (state is GuestLoginState) {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      RouteList.home, (route) => false);
+                } else if (state is SignInSuccess) {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      RouteList.home, (route) => false);
+                }
               }),
           Button(
             text: TranslationConstants.siginInWithGoogle,
             isEnabled: enableSignIn,
             onPressed: () {
               print('Login button pressed');
-              BlocProvider.of<SignWithGoogleBloc>(context).add(
-                const SignWithGoogleButtonPressed(),
+              BlocProvider.of<SignInBloc>(context).add(
+                SignInWithGoogleButtonPressed(),
               );
-              // BlocProvider.of<LoginBloc>(context).add(LoginInitialEvent(
-              //     username: _userNameController!.text,
-              //     password: _passwordController!.text));
             },
           ),
+
+          // login with apple button
+          Button(
+            text: TranslationConstants.signInWithApple,
+            isEnabled: enableSignIn,
+            onPressed: () {
+              print('Login button pressed');
+              BlocProvider.of<SignInBloc>(context).add(
+                SignInWithAppleButtonPressed(),
+              );
+            },
+          ),
+
+          // login with facebook button
+
+          Button(
+            text: TranslationConstants.signInWithFacebook,
+            isEnabled: enableSignIn,
+            onPressed: () {
+              print('Login button pressed');
+              BlocProvider.of<SignInBloc>(context).add(
+                SignInWithFacebookButtonPressed(),
+              );
+            },
+          ),
+
           Button(
               text: TranslationConstants.guestLogin,
-              onPressed: () => BlocProvider.of<SignWithGoogleBloc>(context)
-                  .add(const SignWithGoogleButtonEvent())),
+              onPressed: () => BlocProvider.of<SignInBloc>(context)
+                  .add(LoginGuestButtonEvent())),
         ],
       ),
     ));

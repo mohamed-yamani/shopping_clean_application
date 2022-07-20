@@ -23,5 +23,6 @@
     "guestLogin": "تسجيل الدخول الضيف",
     "siginInWithGoogle": "تسجيل الدخول باستخدام جوجل",
     "signInWithFacebook": "تسجيل الدخول باستخدام فيسبوك",
-    "signInWithApple": "تسجيل الدخول باستخدام اكسبلوت"
+    "signInWithApple": "تسجيل الدخول باستخدام اكسبلوت",
+    "logoutDescription": "هل تريد تسجيل الخروج؟"
 }

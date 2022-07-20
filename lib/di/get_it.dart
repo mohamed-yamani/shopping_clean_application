@@ -3,12 +3,14 @@ import 'package:http/http.dart';
 import 'package:petshop/data/core/api_client.dart';
 import 'package:petshop/data/data_sources/authentication_local_data_source.dart';
 import 'package:petshop/data/data_sources/authentication_remote_data_source.dart';
+import 'package:petshop/data/data_sources/convert_token_remote_data_source.dart';
 import 'package:petshop/data/data_sources/google_auth_remote_data_source.dart';
 import 'package:petshop/data/data_sources/language_local_data_source.dart';
 import 'package:petshop/data/data_sources/menu_remote_data_source.dart';
 import 'package:petshop/data/data_sources/nouvelle_collection_remote_data_source.dart';
 import 'package:petshop/data/data_sources/product_local_data_source.dart';
 import 'package:petshop/data/data_sources/product_remote_data_source.dart';
+import 'package:petshop/data/data_sources/sign_in_local_data_source.dart';
 import 'package:petshop/data/data_sources/sub_category_remote_data_source.dart';
 import 'package:petshop/data/data_sources/theme_local_data_source.dart';
 import 'package:petshop/data/repositories/app_repository_impl.dart';
@@ -25,7 +27,10 @@ import 'package:petshop/domain/repositories/nouvelle_collection_repository.dart'
 import 'package:petshop/domain/repositories/product_repositories.dart';
 import 'package:petshop/domain/repositories/sub_category_repository.dart';
 import 'package:petshop/domain/usecases/check_if_product_favorite.dart';
+import 'package:petshop/domain/usecases/check_if_session_exists_usecase.dart';
 import 'package:petshop/domain/usecases/delete_favorite_products.dart';
+import 'package:petshop/domain/usecases/delete_session_usecase.dart';
+import 'package:petshop/domain/usecases/get_convert_token.dart';
 import 'package:petshop/domain/usecases/get_favorite_products.dart';
 import 'package:petshop/domain/usecases/get_menu.dart';
 import 'package:petshop/domain/usecases/get_new_products.dart';
@@ -38,10 +43,12 @@ import 'package:petshop/domain/usecases/get_product_by_category.dart';
 import 'package:petshop/domain/usecases/get_product_details.dart';
 import 'package:petshop/domain/usecases/get_products.dart';
 import 'package:petshop/domain/usecases/get_promotion_products.dart';
+import 'package:petshop/domain/usecases/get_session_usecase.dart';
 import 'package:petshop/domain/usecases/get_sub_categories.dart';
 import 'package:petshop/domain/usecases/login_user.dart';
 import 'package:petshop/domain/usecases/login_with_google.dart';
 import 'package:petshop/domain/usecases/logout_user.dart';
+import 'package:petshop/domain/usecases/save_new_session_use_case.dart';
 import 'package:petshop/domain/usecases/save_product.dart';
 import 'package:petshop/domain/usecases/search_products.dart';
 import 'package:petshop/domain/usecases/update_language.dart';
@@ -57,7 +64,7 @@ import 'package:petshop/presentation/blocs/product_details/product_details_bloc.
 import 'package:petshop/presentation/blocs/serach_product/serach_product_bloc.dart';
 import 'package:petshop/presentation/blocs/shopping_backdrop/shopping_backdrop_bloc.dart';
 import 'package:petshop/presentation/blocs/shopping_tabbed/shopping_tabbed_bloc.dart';
-import 'package:petshop/presentation/blocs/sign_with_google/sign_with_google_bloc.dart';
+import 'package:petshop/presentation/blocs/sign_in/sign_in_bloc.dart';
 import 'package:petshop/presentation/blocs/sub_categories/sub_categories_bloc.dart';
 import 'package:petshop/presentation/blocs/theme/theme_cubit.dart';
 
@@ -76,9 +83,16 @@ Future init() async {
   //! Products Repository (Local Data Source)
   getItInstance.registerLazySingleton<ProductLocalDataSource>(
       () => ProductLocalDataSourceImpl());
+  //! Session Local Data Source
+  getItInstance.registerLazySingleton<SessionLocalDataSource>(
+      () => SessionLocalDataSourceImpl());
   //! Nouvelle Collection Repository (Remote Data Source)
   getItInstance.registerLazySingleton<NouvelleCollectionRemoteDataSource>(
       () => NouvelleCollectionRemoteDataSourceImpl(getItInstance()));
+  //! convert token (Remote Data Source)
+  getItInstance.registerLazySingleton<ConvertTokenRemoteDataSource>(
+      () => ConvertTokenRemoteDataSourceImpl(getItInstance()));
+
   //! Language Local Data Source
   getItInstance.registerLazySingleton<LanguageLocalDataSource>(
       () => LanguageLocalDataSourceImpl());
@@ -99,11 +113,26 @@ Future init() async {
   getItInstance.registerLazySingleton<NouvelleCollectionRepository>(
       () => NouvelleCollectionRepositoryImpl(getItInstance()));
   // ! Authentication Repository
-  getItInstance.registerLazySingleton<AuthRepository>(
-      () => AuthRepositoryImpl(googleAuthRemoteDataSource: getItInstance()));
+  getItInstance.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(
+        googleAuthRemoteDataSource: getItInstance(),
+        convertTokenRemoteDataSource: getItInstance(),
+        signInLocalDataSource: getItInstance(),
+      ));
   //! Nouvelle Collection usecase
   getItInstance.registerLazySingleton<GetNouvelleCollection>(
       () => GetNouvelleCollection(getItInstance()));
+  //! save new session usecase
+  getItInstance.registerLazySingleton<SaveNewSessionUseCase>(
+      () => SaveNewSessionUseCase(repository: getItInstance()));
+  //! get session usecase
+  getItInstance.registerLazySingleton<GetSessionUseCase>(
+      () => GetSessionUseCase(repository: getItInstance()));
+  //! delete session usecase
+  getItInstance.registerLazySingleton<DeleteSessionUsecase>(
+      () => DeleteSessionUsecase(authRepository: getItInstance()));
+  //! check if session exists usecase
+  getItInstance.registerLazySingleton<CheckIFSessionExistsUsecase>(
+      () => CheckIFSessionExistsUsecase(authRepository: getItInstance()));
 
   //! Application Repository (Local Data Source)
   getItInstance.registerLazySingleton<AppRepository>(
@@ -167,6 +196,9 @@ Future init() async {
   //! CheckIfProductFavorite Repository (Local Data Source)
   getItInstance.registerLazySingleton<CheckIfProductFavorite>(
       () => CheckIfProductFavorite(getItInstance()));
+  // ! get convert token usecase
+  getItInstance.registerLazySingleton<GetConvertToken>(
+      () => GetConvertToken(getItInstance()));
   //! update language and get preferred use case
   getItInstance.registerLazySingleton<UpdateLanguage>(
       () => UpdateLanguage(getItInstance()));
@@ -267,10 +299,15 @@ Future init() async {
   getItInstance
       .registerLazySingleton<LogoutUser>(() => LogoutUser(getItInstance()));
 
-  //! sign with google bloc
-  getItInstance.registerFactory(() => SignWithGoogleBloc(
+  //! SignInBloc bloc
+  getItInstance.registerFactory(() => SignInBloc(
         loadingCubit: getItInstance(),
+        getConvertToken: getItInstance(),
         loginWithGoogle: getItInstance(),
+        checkIFSessionExistsUsecase: getItInstance(),
+        deleteSessionUsecase: getItInstance(),
+        getSessionUseCase: getItInstance(),
+        saveNewSessionUseCase: getItInstance(),
       ));
 
   //! search product and search product bloc
