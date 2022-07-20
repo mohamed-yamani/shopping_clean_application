@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:petshop/common/constants/route_constants.dart';
 import 'package:petshop/common/constants/size_constants.dart';
 import 'package:petshop/common/constants/translation_constants.dart';
 import 'package:petshop/common/extensions/size_extensions.dart';
+import 'package:petshop/common/extensions/string_extentions.dart';
 import 'package:petshop/presentation/blocs/sign_in/sign_in_bloc.dart';
-import 'package:petshop/presentation/journeys/login/label_field_widget.dart';
-import 'package:petshop/presentation/widgets/button.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -51,8 +51,8 @@ class _LoginFormState extends State<LoginForm> {
     return SingleChildScrollView(
         child: Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: Sizes.dimen_32.w,
-        vertical: Sizes.dimen_24.h,
+        horizontal: Sizes.dimen_10.w,
+        vertical: Sizes.dimen_50.h,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -84,9 +84,8 @@ class _LoginFormState extends State<LoginForm> {
                       RouteList.home, (route) => false);
                 }
               }),
-          Button(
-            text: TranslationConstants.siginInWithGoogle,
-            isEnabled: enableSignIn,
+          SignInButton(
+            Buttons.Google,
             onPressed: () {
               print('Login button pressed');
               BlocProvider.of<SignInBloc>(context).add(
@@ -96,9 +95,8 @@ class _LoginFormState extends State<LoginForm> {
           ),
 
           // login with apple button
-          Button(
-            text: TranslationConstants.signInWithApple,
-            isEnabled: enableSignIn,
+          SignInButton(
+            Buttons.Apple,
             onPressed: () {
               print('Login button pressed');
               BlocProvider.of<SignInBloc>(context).add(
@@ -109,9 +107,8 @@ class _LoginFormState extends State<LoginForm> {
 
           // login with facebook button
 
-          Button(
-            text: TranslationConstants.signInWithFacebook,
-            isEnabled: enableSignIn,
+          SignInButton(
+            Buttons.Facebook,
             onPressed: () {
               print('Login button pressed');
               BlocProvider.of<SignInBloc>(context).add(
@@ -119,11 +116,13 @@ class _LoginFormState extends State<LoginForm> {
               );
             },
           ),
-
-          Button(
-              text: TranslationConstants.guestLogin,
-              onPressed: () => BlocProvider.of<SignInBloc>(context)
-                  .add(LoginGuestButtonEvent())),
+          SignInButtonBuilder(
+            text: TranslationConstants.guestLogin.t(context),
+            icon: Icons.person,
+            onPressed: () => BlocProvider.of<SignInBloc>(context)
+                .add(LoginGuestButtonEvent()),
+            backgroundColor: Colors.blueGrey[700]!,
+          )
         ],
       ),
     ));
