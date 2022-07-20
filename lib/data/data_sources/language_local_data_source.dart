@@ -16,7 +16,7 @@ class LanguageLocalDataSourceImpl implements LanguageLocalDataSource {
     } else {
       productBox = await Hive.openBox('languageBox');
     }
-    return productBox.get('preferred_language');
+    return productBox.get('preferred_language') ?? 'fr';
   }
 
   @override

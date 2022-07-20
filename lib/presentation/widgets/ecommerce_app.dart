@@ -99,9 +99,7 @@ class _EcommerceAppState extends State<EcommerceApp> {
                             ? Colors.white
                             : AppColor.vulcan,
                         visualDensity: VisualDensity.adaptivePlatformDensity,
-                        textTheme: theme == Themes.dark
-                            ? ThemeText.getTextTheme()
-                            : ThemeText.getLightTextTheme(),
+                        textTheme: ThemeText.getTextTheme(),
                         appBarTheme: const AppBarTheme(
                           elevation: 0,
                         ),
@@ -134,7 +132,6 @@ class _EcommerceAppState extends State<EcommerceApp> {
                     ],
                     builder: (context, child) {
                       return LoadingScreen(screen: child!);
-                      return child!;
                     },
                     initialRoute: RouteList.home,
                     onGenerateRoute: (RouteSettings settings) {

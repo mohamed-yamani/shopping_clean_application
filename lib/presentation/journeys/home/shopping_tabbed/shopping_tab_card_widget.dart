@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:petshop/common/constants/route_constants.dart';
@@ -7,7 +5,6 @@ import 'package:petshop/common/constants/size_constants.dart';
 import 'package:petshop/common/extensions/size_extensions.dart';
 import 'package:petshop/common/extensions/string_extentions.dart';
 import 'package:petshop/presentation/journeys/product_details/product_detail_arguments.dart';
-import 'package:petshop/presentation/journeys/product_details/product_detail_screen.dart';
 
 class ShoppingTabCardWidget extends StatelessWidget {
   final int productId;

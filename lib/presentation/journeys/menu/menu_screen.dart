@@ -55,7 +55,7 @@ class MenuScreen extends StatelessWidget {
                                         category2.nom!.toString().capitalize(),
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodyLarge!
+                                            .headline1!
                                             .copyWith(
                                               fontSize: Sizes.dimen_24.sp,
                                             ),

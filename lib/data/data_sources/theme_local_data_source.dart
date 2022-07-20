@@ -16,7 +16,7 @@ class ThemeLocalDataSourceImpl implements ThemeLocalDataSource {
     } else {
       productBox = await Hive.openBox('themeBox');
     }
-    return productBox.get('preferred_theme');
+    return productBox.get('preferred_theme') ?? 'dark';
   }
 
   @override
