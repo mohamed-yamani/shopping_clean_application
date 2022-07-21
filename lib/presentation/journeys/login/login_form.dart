@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:petshop/common/constants/route_constants.dart';
 import 'package:petshop/common/constants/size_constants.dart';
 import 'package:petshop/common/constants/translation_constants.dart';
 import 'package:petshop/common/extensions/size_extensions.dart';
 import 'package:petshop/common/extensions/string_extentions.dart';
 import 'package:petshop/presentation/blocs/sign_in/sign_in_bloc.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -97,11 +99,28 @@ class _LoginFormState extends State<LoginForm> {
           // login with apple button
           SignInButton(
             Buttons.Apple,
-            onPressed: () {
-              print('Login button pressed');
-              BlocProvider.of<SignInBloc>(context).add(
-                SignInWithAppleButtonPressed(),
+            onPressed: () async {
+              // print('Login button pressed');
+              // if (!await SignInWithApple.isAvailable()) {
+              //   print('Apple login is not available');
+              //   return;
+              // }
+
+              // final res = await SignInWithApple.getCredentialState('test');
+
+              final credential = await SignInWithApple.getAppleIDCredential(
+                scopes: [
+                  AppleIDAuthorizationScopes.email,
+                  AppleIDAuthorizationScopes.fullName,
+                ],
               );
+
+              print(credential);
+              print(credential.email);
+              print(credential.familyName);
+              // BlocProvider.of<SignInBloc>(context).add(
+              //   SignInWithAppleButtonPressed(),
+              // );
             },
           ),
 

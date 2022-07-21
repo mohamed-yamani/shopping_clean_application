@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>602875674387-dr3hjeg906rh1m341a8fh9f76i50ltph.apps.googleusercontent.com</string>
+	<string>54763682657-3c6dj695db01fj6tbnevjp68urm4p14g.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.602875674387-dr3hjeg906rh1m341a8fh9f76i50ltph</string>
+	<string>com.googleusercontent.apps.54763682657-3c6dj695db01fj6tbnevjp68urm4p14g</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBYaVQRphDwcIIZ_hAmHJZ4wHPXZ3prUPA</string>
+	<string>AIzaSyDEsH4sIeymQRFcsd9Dv5osHL_Wiq2Qb1U</string>
 	<key>GCM_SENDER_ID</key>
-	<string>602875674387</string>
+	<string>54763682657</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.petshop</string>
+	<string>com.icebergtech.petshop</string>
 	<key>PROJECT_ID</key>
-	<string>petshop-cc248</string>
+	<string>petshop-aad89</string>
 	<key>STORAGE_BUCKET</key>
-	<string>petshop-cc248.appspot.com</string>
+	<string>petshop-aad89.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:602875674387:ios:d39ee0a38a8c014840e4e6</string>
+	<string>1:54763682657:ios:d2c7df4efcf7133091a320</string>
 </dict>
 </plist>

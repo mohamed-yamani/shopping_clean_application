@@ -11,6 +11,7 @@ class GoogleAuthRemoteDataSourceImpl implements GoogleAuthRemoteDataSource {
   @override
   Future<Either<AppError, AuthEntity>> signInWithGoogleRemoteData() async {
     final _googleSignIn = GoogleSignIn();
+
     final account = await _googleSignIn.signIn();
     if (account == null) {
       return left(const AppError(AppErrorType.abortedByUser));
